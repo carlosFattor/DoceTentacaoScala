@@ -1,0 +1,7 @@
+@(galls: List[models.Gallery])
+
+@main("teste") {
+	@for(g <- galls){
+		@g.galName <br />
+	}
+}

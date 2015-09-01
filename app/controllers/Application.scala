@@ -5,8 +5,9 @@ import play.api.mvc._
 
 class Application extends Controller {
 
+  val msgIndex = "Nilda Doce Tentação"
+  
   def index = Action {
-    Ok(views.html.index("Your new application is ready."))
+    Ok(views.html.index(msgIndex))
   }
-
 }
