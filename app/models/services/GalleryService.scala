@@ -10,7 +10,7 @@ import com.google.inject.ImplementedBy
 trait GalleryService {
   
   def findListGall(): Future[List[Gallery]]
-  
-  def addGall(gall: Gallery): Future[Gallery]
-  
+  def find(id: String): Future[Option[Gallery]]  
+  def addGall(gall: Gallery): Future[Option[Gallery]]
+  def updateGall(gall: Gallery): Future[Option[Gallery]]
 }

@@ -8,10 +8,9 @@ import play.api.mvc.Results._
 import play.api.mvc.{ Result, RequestHeader }
 import play.api.routing.Router
 import play.api.{ OptionalSourceMapper, Configuration }
-
 import scala.concurrent.Future
-
 import javax.inject.Inject
+import play.api.UsefulException
 
 /**
  * @author carlos
@@ -34,6 +33,18 @@ class ErrorHandler @Inject() (
    */
   def onNotAuthenticated(request: RequestHeader, messages: Messages): Option[Future[Result]] = {
     Some(Future.successful(Redirect(routes.Application.index())))
+  }
+  
+  override def onProdServerError(request: RequestHeader, exception: UsefulException) = {
+    Future.successful(
+      InternalServerError("A server error occurred: " + exception.getMessage)
+    )
+  }
+  
+  override def onForbidden(request: RequestHeader, message: String) = {
+    Future.successful(
+      Forbidden("You're not allowed to access this resource.")
+    )
   }
 
   /**

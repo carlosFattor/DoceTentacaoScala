@@ -10,6 +10,7 @@ GET		/gallery					controllers.GalleryControl.gallery
 
 POST	/gallery/add				controllers.GalleryControl.add
 GET		/gallery/add				controllers.GalleryControl.add
+GET		/gallery/edit/:id			controllers.GalleryControl.edit(id)
 
 
 # Map static resources from the /public folder to the /assets URL path

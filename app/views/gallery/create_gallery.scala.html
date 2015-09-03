@@ -4,6 +4,9 @@
 
 @main("teste"){
 	@form(controllers.routes.GalleryControl.add()){
+		@if(formGall("id").value != null){
+				@inputText(formGall("id"))
+			}
 		@inputText(formGall("galName"), '_label -> "Nome", 'required -> true)
 		@inputText(formGall("galDesc"))
 		@inputText(formGall("galURLSmall"))

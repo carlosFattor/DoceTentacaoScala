@@ -1,8 +1,7 @@
 package models
 
 import play.api.data.Form
-import play.api.data.Forms.mapping
-import play.api.data.Forms.optional
+import play.api.data._
 import play.api.data.Forms._
 import play.api.libs.json.Json
 

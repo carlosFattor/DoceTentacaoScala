@@ -2,6 +2,13 @@
 
 @main("teste") {
 	@for(g <- galls){
-		@g.galName <br />
+		@g.galName
+		@g.galDesc
+		@g.galURLSmall
+		@g.galURLLarge
+
+                        <a href="@controllers.routes.GalleryControl.edit(g.id.get)" type="submit">Editar</a>
+                        <a href="#">Excluir</a>
+		<br />
 	}
 }

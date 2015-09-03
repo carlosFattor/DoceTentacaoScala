@@ -1,11 +1,6 @@
 package modules
 
-import scala.collection.JavaConversions.asScalaBuffer
-import scala.concurrent.ExecutionContext.Implicits.global
-
 import com.google.inject.AbstractModule
-import com.typesafe.config.ConfigFactory
-
 import models.daos.GalleryDAO
 import models.daos.GalleryDAOImp
 import models.services.GalleryService
@@ -25,9 +20,9 @@ class DIModule extends AbstractModule {
       import scala.concurrent.ExecutionContext.Implicits.global
       import scala.collection.JavaConversions._  
       
-      val config = ConfigFactory.load
-      val driver = new MongoDriver
-      val connection = driver.connection(
+      lazy val config = ConfigFactory.load
+      lazy val driver = new MongoDriver
+      lazy val connection = driver.connection(
         config.getStringList("mongodb.servers"),
         MongoConnectionOptions(),
         Seq()
