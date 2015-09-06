@@ -1,0 +1,21 @@
+@(msg: String, users: List[models.User])(implicit request: RequestHeader, messages: Messages)
+
+@import helper._
+
+@main(msg) {
+
+	@for(user <- users){
+			@user.firstName
+			@user.lastName
+			@user.email
+			@user.password
+			@user.avatarURL
+			@user.active
+
+
+			<a href="@controllers.routes.UserControl.edit(user._id.get)">Editar</a>
+			<a href="@controllers.routes.UserControl.remove(user._id.get)">Remover</a>
+
+			<br />
+		}
+	}

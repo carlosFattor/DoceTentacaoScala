@@ -4,10 +4,6 @@ import scala.Left
 import scala.Right
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import scala.math.BigDecimal.double2bigDecimal
-import scala.math.BigDecimal.int2bigDecimal
-import scala.math.BigDecimal.long2bigDecimal
-
 import javax.inject.Inject
 import javax.inject.Singleton
 import models.Gallery
@@ -25,23 +21,24 @@ import play.modules.reactivemongo.json.JsObjectDocumentWriter
 import play.modules.reactivemongo.json.collection.JSONCollection
 import reactivemongo.api.DB
 import reactivemongo.api.ReadPreference
+import models.daos.GalleryDAO
 
 /**
  * @import models.daos.GalleryDAO
  * author carlos
  */
 @Singleton
-class GalleryDAOImp @Inject() (db: DB) extends GalleryDAO {
+class GalleryDAOImp @Inject() (db: DB) extends GalleryDAO{
 
   def collection: JSONCollection = db.collection[JSONCollection]("gallery")
 
   def find(): Future[List[Gallery]] = {
     val query = Json.obj()
-      Some(collection.find(query).cursor[Gallery]().collect[List]()).get      
+    Some(collection.find(query).cursor[Gallery]().collect[List]()).get
   }
 
   def find(id: String): Future[Option[Gallery]] = {
-    val query = Json.obj("id" -> id)
+    val query = Json.obj("_id" -> id)
     collection.find(query).one[Gallery] map {
       case Some(x) => Option.apply(x)
       case _       => None
@@ -65,7 +62,7 @@ class GalleryDAOImp @Inject() (db: DB) extends GalleryDAO {
   }
 
   def remove(gallId: String): Future[Either[Exception, Boolean]] = {
-    val query = Json.obj("id" -> gallId)
+    val query = Json.obj("_id" -> gallId)
     collection.remove(query, firstMatchOnly = true).map {
       case le if le.ok == true => Right(le.ok)
       case le                  => Left(le)
@@ -73,15 +70,15 @@ class GalleryDAOImp @Inject() (db: DB) extends GalleryDAO {
   }
 
   def update(gall: Gallery): Future[Either[Exception, Gallery]] = {
-    val query = Json.obj("id" -> gall.id)
+    val query = Json.obj("_id" -> gall._id)
     val modifier = Json.obj(
       "$set" -> Json.obj(
+        "_id" -> gall._id,
         "galName" -> gall.galName,
         "galDesc" -> gall.galDesc,
         "galURLSmall" -> gall.galURLSmall,
-        "galURLLarge" -> gall.galURLLarge
-        ))
-        println(modifier.toString())
+        "galURLLarge" -> gall.galURLLarge))
+    println(modifier.toString())
     collection.update(query, modifier).map {
       case le if le.ok == true => Right(gall)
       case le                  => Left(le)

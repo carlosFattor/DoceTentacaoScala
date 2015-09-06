@@ -1,5 +1,7 @@
 @(galls: List[models.Gallery])
 
+@import helper._
+
 @main("teste") {
 	@for(g <- galls){
 		@g.galName
@@ -7,8 +9,15 @@
 		@g.galURLSmall
 		@g.galURLLarge
 
-                        <a href="@controllers.routes.GalleryControl.edit(g.id.get)" type="submit">Editar</a>
-                        <a href="#">Excluir</a>
-		<br />
+                        @form(controllers.routes.GalleryControl.edit(g._id.get)){
+                            <div class="buttons">
+                                <input type="submit" value="Edit"/>
+                            </div>
+                        }
+                        @form(controllers.routes.GalleryControl.remove(g._id.get)){
+                            <div class="buttons">
+                                <input type="submit" value="Remove"/>
+                            </div>
+                        }
 	}
 }

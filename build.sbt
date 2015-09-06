@@ -4,9 +4,20 @@ name := """doce_tentacao_scala"""
 
 version := "1.0-SNAPSHOT"
 
-lazy val root = (project in file(".")).enablePlugins(PlayScala).enablePlugins(SbtTwirl)
-
 scalaVersion := "2.11.7"
+
+lazy val root = (project in file(".")).enablePlugins(PlayScala).enablePlugins(SbtTwirl).enablePlugins(SbtWeb)
+
+
+pipelineStages in Assets := Seq()
+
+pipelineStages := Seq(uglify, digest, gzip)
+
+DigestKeys.algorithms += "sha1"
+
+UglifyKeys.uglifyOps := { js =>
+  Seq((js.sortBy(_._2), "concat.min.js"))
+}
 
 libraryDependencies ++= Seq(
   jdbc,
@@ -30,6 +41,13 @@ routesGenerator := InjectedRoutesGenerator
 //********************************************************
 
 defaultScalariformSettings
+
+// disable documentation generation
+sources in(Compile, doc) := Seq.empty
+// avoid to publish the documentation artifact
+publishArtifact in(Compile, packageDoc) := false
+parallelExecution in Test := true
+fork in Test := false
 
 ScalariformKeys.preferences := ScalariformKeys.preferences.value
   .setPreference(FormatXml, false)

@@ -1,9 +1,7 @@
 package models.daos
 
 import scala.concurrent.Future
-
 import models.Gallery
-import play.libs.Json
 
 /**
  * @author carlos

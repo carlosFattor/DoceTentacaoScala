@@ -1,36 +1,53 @@
 package modules
 
+import scala.concurrent.ExecutionContext.Implicits
 import com.google.inject.AbstractModule
-import models.daos.GalleryDAO
 import models.daos.GalleryDAOImp
-import models.services.GalleryService
+import models.daos.UserDAOImp
+import models.daos.GalleryDAO
+import models.daos.UserDAO
 import models.services.GalleryServiceImp
+import models.services.GalleryService
+import play.api.Configuration
+import play.api.Environment
 import reactivemongo.api.DB
-import reactivemongo.api.MongoConnectionOptions
 import reactivemongo.api.MongoDriver
+import models.services.traits.UserService
+import models.services.UserServiceImp
 
 /**
  * @author carlos
  */
-class DIModule extends AbstractModule {
+
+case class DIModule(environment: Environment, configuration: Configuration) extends AbstractModule {
+  import scala.concurrent.ExecutionContext.Implicits.global
+
+  def configure() {
+    bindMongo()
+    bindDAOs()
+    bindServices()
+  }
   
-  def configure() = {
-    bind(classOf[DB]).toInstance{
-       import com.typesafe.config.ConfigFactory
-      import scala.concurrent.ExecutionContext.Implicits.global
-      import scala.collection.JavaConversions._  
-      
-      lazy val config = ConfigFactory.load
-      lazy val driver = new MongoDriver
-      lazy val connection = driver.connection(
-        config.getStringList("mongodb.servers"),
-        MongoConnectionOptions(),
-        Seq()
-        )
-        connection.db(config.getString("mongodb.db"))
-    }
+  private def bindMongo(): Unit = {
+    val hosts = configuration.getStringSeq("mongodb.server").get.asInstanceOf[List[String]]
+    val port = configuration.getInt("mongodb.port").get
+    val dbName = configuration.getString("mongodb.db").get
+
+    val driver = new MongoDriver
+    val connection = driver.connection(hosts)
+    val db: DB = connection(dbName)
+    bind(classOf[DB]).toInstance(db)
+  }
+  
+  private def bindDAOs(): Unit = {
     bind(classOf[GalleryDAO]).to(classOf[GalleryDAOImp])
+    bind(classOf[UserDAO]).to(classOf[UserDAOImp])
+    
+  }
+  
+  private def bindServices(): Unit = {
     bind(classOf[GalleryService]).to(classOf[GalleryServiceImp])
+    bind(classOf[UserService]).to(classOf[UserServiceImp])
   }
   
 }

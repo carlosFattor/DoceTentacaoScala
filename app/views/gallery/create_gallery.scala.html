@@ -4,14 +4,14 @@
 
 @main("teste"){
 	@form(controllers.routes.GalleryControl.add()){
-		@if(formGall("id").value != null){
-				@inputText(formGall("id"))
+		@if(formGall("_id").value != null){
+				@inputText(formGall("_id"),    'style -> "display: none")
 			}
 		@inputText(formGall("galName"), '_label -> "Nome", 'required -> true)
 		@inputText(formGall("galDesc"))
 		@inputText(formGall("galURLSmall"))
 		@inputText(formGall("galURLLarge"))
-		
+
 		<div class="buttons">
 			<input type="submit" value="Add Gallery"/>
 		</div>

@@ -13,11 +13,13 @@ import reactivemongo.bson.BSONObjectID
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.libs.json._
+import models.services.GalleryService
+
 /**
  * @author carlos
  */
 @Singleton
-class GalleryControl @Inject() (galService: GalleryServiceImp) extends Controller {
+class GalleryControl @Inject() (galService: GalleryService) extends Controller {
 
   def gallery = Action.async {
 
@@ -30,20 +32,19 @@ class GalleryControl @Inject() (galService: GalleryServiceImp) extends Controlle
 
   def add = Action.async { implicit request =>
     Gallery.formGall.bindFromRequest.fold(
-      form => Future.successful(BadRequest(views.html.gallery.create_gallery(form))),
+      formErr => Future.successful(BadRequest(views.html.gallery.create_gallery(formErr))),
       data => {
-        galService.find(data.id.getOrElse("")).flatMap {
-          
-        case Some(gall) => 
-          println(data)
-          galService.updateGall(data).map { 
-            case Some(x) => Redirect(routes.GalleryControl.gallery())
-            case None => Redirect(routes.GalleryControl.gallery())
-          }
+        galService.find(data._id.getOrElse("")).flatMap {
+
+          case Some(_) =>
+            galService.updateGall(data).map {
+              case Some(x) => Redirect(routes.GalleryControl.gallery())
+              case None    => Redirect(routes.GalleryControl.gallery())
+            }
 
           case None =>
             val gall = Gallery(
-              id = Some(BSONObjectID.generate.stringify),
+              _id = Some(BSONObjectID.generate.stringify),
               galName = Option.apply(data.galName).orNull,
               galDesc = data.galDesc,
               galURLSmall = data.galURLSmall,
@@ -56,7 +57,16 @@ class GalleryControl @Inject() (galService: GalleryServiceImp) extends Controlle
 
   def edit(id: String) = Action.async { implicit request =>
     galService.find(id).map {
-      gall => Ok(views.html.gallery.create_gallery(Gallery.formGall.fill(gall.get)))
+      case Some(gall) => Ok(views.html.gallery.create_gallery(Gallery.formGall.fill(gall)))
+      case None => Redirect(routes.GalleryControl.gallery())
     }
   }
+  
+  def remove(id: String) = Action.async { implicit request =>
+    galService.removeGall(id).map {
+      case Some(_) => Redirect(routes.GalleryControl.gallery())
+      case None => Redirect(routes.GalleryControl.gallery())
+    }
+  }
+  
 }

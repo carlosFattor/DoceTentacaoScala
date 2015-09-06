@@ -1,11 +1,12 @@
 package models.services
 
-import javax.inject._
-import models.daos.GalleryDAO
 import scala.concurrent.Future
+import models.services.GalleryService
+import javax.inject.Inject
+import javax.inject.Singleton
 import models.Gallery
-
-import play.api.libs.concurrent.Execution.Implicits._
+import models.daos.GalleryDAO
+import play.api.libs.concurrent.Execution.Implicits.defaultContext
 
 /**
  * @author carlos
@@ -26,6 +27,13 @@ class GalleryServiceImp @Inject() (galleryDao: GalleryDAO) extends GalleryServic
   
   def updateGall(gall: Gallery): Future[Option[Gallery]] = {
     galleryDao.update(gall).map{
+      case Right(g) => Some(g)
+      case Left(err) => None
+    }
+  }
+  
+  def removeGall(id: String): Future[Option[Boolean]] = {
+    galleryDao.remove(id).map {
       case Right(g) => Some(g)
       case Left(err) => None
     }
