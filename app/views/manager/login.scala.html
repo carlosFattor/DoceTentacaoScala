@@ -1,0 +1,16 @@
+@(userForm: Form[models.UserData])(implicit request: RequestHeader, messages: Messages)
+
+@import helper._
+
+@main(""){
+
+	@helper.form(routes.UserControl.login()) {
+	  @helper.inputText(userForm("email"))
+	  @helper.inputText(userForm("passWord"))
+	  
+	  <div class="buttons">
+			<input type="submit" value="Login"/>
+		</div>
+}
+
+}

@@ -53,6 +53,7 @@ abstract class BasicCrudDAO[T](db: DB, collectionName: String) extends CrudDAO[T
   }
 
   def findAll()(implicit readsT : Reads[T]): Future[List[T]] = {
+    Logger.debug(s"findAll documents: [collection=$collectionName]")
     implicit val myWrites: OWrites[Unit] = new OWrites[Unit] {
       def writes(a: Unit) = Json.obj()
     }

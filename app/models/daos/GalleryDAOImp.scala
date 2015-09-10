@@ -21,7 +21,6 @@ import play.modules.reactivemongo.json.JsObjectDocumentWriter
 import play.modules.reactivemongo.json.collection.JSONCollection
 import reactivemongo.api.DB
 import reactivemongo.api.ReadPreference
-import models.daos.GalleryDAO
 
 /**
  * @import models.daos.GalleryDAO

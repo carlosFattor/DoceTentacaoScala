@@ -41,5 +41,9 @@ class UserServiceImp @Inject() (userDao: UserDAO) extends UserService {
       case Failure(e) => None  
     }
   }
+  
+  def findUserByEmail(email: String): Future[Option[User]] = {
+    userDao.findByType("email", email)
+  }
 
 }

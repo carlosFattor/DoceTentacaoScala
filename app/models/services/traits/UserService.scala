@@ -10,4 +10,5 @@ trait UserService {
   def findUser(id: String): Future[Option[User]]
   def updateUSer(user: User): Future[Option[User]]
   def removeUser(id: String): Future[Option[Boolean]]
+  def findUserByEmail(email: String): Future[Option[User]]
 }
