@@ -25,7 +25,9 @@ libraryDependencies ++= Seq(
   ws,
   specs2 % Test,
   filters,
-  "org.reactivemongo" %% "play2-reactivemongo" % "0.11.6.play24"
+  "org.reactivemongo" %% "play2-reactivemongo" % "0.11.7.play24",
+  "org.webjars" % "bootstrap" % "3.1.1",
+  "com.adrianhurt" %% "play-bootstrap3" % "0.4.4-P24"
 )
 
 resolvers += "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases"
@@ -53,4 +55,3 @@ ScalariformKeys.preferences := ScalariformKeys.preferences.value
   .setPreference(FormatXml, false)
   .setPreference(DoubleIndentClassDeclaration, false)
   .setPreference(PreserveDanglingCloseParenthesis, true)
-  

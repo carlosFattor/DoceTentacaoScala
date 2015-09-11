@@ -3,29 +3,43 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.Application.index
+GET    /                            controllers.Application.index
 
 #Gallery
-GET		/gallery					controllers.GalleryControl.gallery
+GET    /gallery                     controllers.GalleryControl.gallery
 
-POST	/gallery/add				controllers.GalleryControl.add
-GET		/gallery/add				controllers.GalleryControl.add
-POST	/gallery/edit				controllers.GalleryControl.edit(id)
+#Category/Product
+GET    /category                    controllers.CategoryControl.category()
 
-POST 	/gallery/remove				controllers.GalleryControl.remove(id)
+#KnowMore
+GET    /learn                       controllers.ContactControl.knowMore
 
+
+######MANAGER#####
+#Gallery
+GET    /manager                     controllers.GalleryControl.galleryManager
+POST   /manager/gallery/add         controllers.GalleryControl.add
+GET    /manager/gallery/add         controllers.GalleryControl.add
+POST   /manager/gallery/edit        controllers.GalleryControl.edit(id)
+
+POST   /manager/gallery/remove      controllers.GalleryControl.remove(id)
 
 #User
-GET		/users						controllers.UserControl.users
-POST	/users/add					controllers.UserControl.add
-GET		/users/add					controllers.UserControl.add
-GET		/users/edit/:id				controllers.UserControl.edit(id)
-
-GET		/users/remove/:id			controllers.UserControl.remove(id)
+GET    /manager/users               controllers.UserControl.users
+POST   /manager/users/add           controllers.UserControl.add
+GET    /manager/users/add           controllers.UserControl.add
+GET    /manager/users/edit/:id      controllers.UserControl.edit(id)
+GET    /manager/users/remove/:id    controllers.UserControl.remove(id)
 
 #Login
-POST	/manager/login				controllers.UserControl.login
-GET		/manager/login				controllers.UserControl.login
+POST   /manager/login               controllers.UserControl.login
+GET    /manager/login               controllers.UserControl.login
+
+#Category
+GET    /manager/category            controllers.CategoryControl.categoryManager
+POST   /manager/category/add        controllers.CategoryControl.add
+GET    /manager/category/add        controllers.CategoryControl.add
+GET    /manager/category/edit/:id   controllers.CategoryControl.edit(id)
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+GET    /assets/*file                controllers.Assets.versioned(path="/public", file: Asset)

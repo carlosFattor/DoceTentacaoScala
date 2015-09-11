@@ -1,43 +1,40 @@
 package models.daos.traits.core
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.{ ExecutionContext, Future }
 import scala.util.Failure
 import scala.util.Success
 import scala.util.Try
 import models.daos.traits.core.BasicCrudDAO.RemoveFailed
 import models.daos.traits.core.BasicCrudDAO.SavingFailed
 import play.api.Logger
-import play.api.libs.json.Format
-import play.api.libs.json.JsValue
-import play.api.libs.json.Json
-import play.api.libs.json.OFormat
-import play.api.libs.json.OWrites
+import play.api.libs.json._
 import play.modules.reactivemongo.json.collection.JSONCollection
 import play.modules.reactivemongo.json.collection.JSONCollectionProducer
-import reactivemongo.api.DB
-import reactivemongo.api.commands.WriteResult
+import play.modules.reactivemongo.json._
 import play.api.libs.json.Reads
-import play.api.libs.json.Writes
+import reactivemongo.api.DB
+import reactivemongo.api.Cursor
+import reactivemongo.api.commands.WriteResult
+import play.api.libs.json.Json.JsValueWrapper
 
 abstract class BasicCrudDAO[T](db: DB, collectionName: String) extends CrudDAO[T] {
-  
+
   val collection = db[JSONCollection](collectionName)
 
   def create(t: T)(implicit tjs: OWrites[T]): Future[Try[String]] = {
     Logger.debug(s"create documents: [collection=$collectionName, query=$t]")
     collection.insert(t) map {
-      lastError  =>
+      lastError =>
         if (lastError.ok) {
           Success(t.toString())
         } else {
-          Failure(SavingFailed(lastError .errmsg.get))
+          Failure(SavingFailed(lastError.errmsg.get))
         }
     }
-
   }
 
-  def read(id: String)(implicit readsT : Reads[T]): Future[Option[T]] = {
+  def read(id: String)(implicit readsT: Reads[T]): Future[Option[T]] = {
     Logger.debug(s"reading documents: [collection=$collectionName, query=$id]")
     collection.find(Map("_id" -> id)).one[T]
   }
@@ -52,12 +49,18 @@ abstract class BasicCrudDAO[T](db: DB, collectionName: String) extends CrudDAO[T
     collection.remove(Map("_id" -> id)) flatMap asTryUnit
   }
 
-  def findAll()(implicit readsT : Reads[T]): Future[List[T]] = {
+  def findAll()(implicit readsT: Reads[T]): Future[List[T]] = {
     Logger.debug(s"findAll documents: [collection=$collectionName]")
     implicit val myWrites: OWrites[Unit] = new OWrites[Unit] {
       def writes(a: Unit) = Json.obj()
     }
     collection.find(()).cursor[T]().collect[List]()
+  }
+  
+  def findProjection(selector: JsObject, projection: JsObject)(implicit readsT: Reads[T]): Future[List[T]] = {
+    val cursor: Cursor[T] = collection
+      .find(selector, projection).cursor[T]()
+    cursor.collect[List]()
   }
 
   private def asTryUnit(writeResult: WriteResult): Future[Try[Unit]] = Future {

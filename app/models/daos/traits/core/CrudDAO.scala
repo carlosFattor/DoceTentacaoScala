@@ -6,6 +6,7 @@ import scala.util.Try
 import play.api.libs.json.OWrites
 import play.modules.reactivemongo.json.collection.JSONCollection
 import play.api.libs.json.Reads
+import play.api.libs.json.JsObject
 
 trait CrudDAO[T] {
   
@@ -18,5 +19,7 @@ trait CrudDAO[T] {
   def update(id: String, updates: JsValue): Future[Try[Unit]]
 
   def findAll()(implicit readsT : Reads[T]): Future[List[T]]
+  
+  def findProjection(selector: JsObject, projection: JsObject)(implicit readsT: Reads[T]): Future[List[T]]
   
 }

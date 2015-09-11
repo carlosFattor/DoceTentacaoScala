@@ -1,10 +1,6 @@
 package models
 
-import play.api.data.Form
-import play.api.data._
-import play.api.data.Forms._
-import play.api.libs.json.Json
-import play.modules.reactivemongo.json._
+
 
 /**
  * @author carlos
@@ -17,6 +13,11 @@ case class Gallery(
   galURLLarge: Option[String])
 
 object Gallery {
+  import play.api.libs.json.Json
+  import play.api.data._
+  import play.api.data.Forms._
+  import play.modules.reactivemongo.json.BSONFormats._
+  
   implicit val galJsonFormat = Json.format[Gallery]
 
   val formGall = Form(

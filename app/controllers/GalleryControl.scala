@@ -1,45 +1,66 @@
 package controllers
 
+import java.util.concurrent.TimeoutException
+
 import scala.concurrent.ExecutionContext.Implicits.global
-import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import scala.concurrent.Future
+import scala.concurrent.duration.DurationInt
+
 import javax.inject.Inject
 import javax.inject.Singleton
 import models.Gallery
-import models.services._
+import models.services.GalleryService
+import play.api.Logger
+import play.api.i18n.I18nSupport
+import play.api.i18n.MessagesApi
 import play.api.mvc.Action
 import play.api.mvc.Controller
 import reactivemongo.bson.BSONObjectID
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
-import play.api.libs.json._
-import models.services.GalleryService
 
 /**
  * @author carlos
  */
 @Singleton
-class GalleryControl @Inject() (galService: GalleryService) extends Controller {
+class GalleryControl @Inject() (galService: GalleryService, val messagesApi: MessagesApi) extends Controller with I18nSupport {
 
-  def gallery = Action.async {
+  implicit val timeout = 10.seconds
+
+  def gallery = Action.async { implicit request =>
 
     val galls = galService.findListGall()
     galls.map {
       gall =>
         Ok(views.html.gallery.list_gallery(gall))
+    }.recover {
+      case t: TimeoutException =>
+        Logger.error("Problem found in gallery list process")
+        InternalServerError(t.getMessage)
+    }
+  }
+
+  def galleryManager = Action.async { implicit request =>
+
+    val galls = galService.findListGall()
+    galls.map {
+      gall =>
+        Ok(views.html.manager.gallery.list_gallery(gall))
+    }.recover {
+      case t: TimeoutException =>
+        Logger.error("Problem found in gallery list process")
+        InternalServerError(t.getMessage)
     }
   }
 
   def add = Action.async { implicit request =>
     Gallery.formGall.bindFromRequest.fold(
-      formErr => Future.successful(BadRequest(views.html.gallery.create_gallery(formErr))),
+      formErr => Future.successful(Ok(views.html.manager.gallery.create_gallery(formErr))),
       data => {
         galService.find(data._id.getOrElse("")).flatMap {
 
           case Some(_) =>
             galService.updateGall(data).map {
-              case Some(x) => Redirect(routes.GalleryControl.gallery())
-              case None    => Redirect(routes.GalleryControl.gallery())
+              case Some(x) => Redirect(routes.GalleryControl.galleryManager())
+              case None    => Redirect(routes.GalleryControl.galleryManager())
             }
 
           case None =>
@@ -50,23 +71,27 @@ class GalleryControl @Inject() (galService: GalleryService) extends Controller {
               galURLSmall = data.galURLSmall,
               galURLLarge = data.galURLLarge)
             galService.addGall(gall)
-            Future.successful(Redirect(routes.GalleryControl.gallery()))
+            Future.successful(Redirect(routes.GalleryControl.galleryManager()))
         }
-      })
+      }).recover {
+        case t: TimeoutException =>
+          Logger.error("Problem adding in gallery list process")
+          InternalServerError(t.getMessage)
+      }
   }
 
   def edit(id: String) = Action.async { implicit request =>
     galService.find(id).map {
-      case Some(gall) => Ok(views.html.gallery.create_gallery(Gallery.formGall.fill(gall)))
-      case None => Redirect(routes.GalleryControl.gallery())
+      case Some(gall) => Ok(views.html.manager.gallery.create_gallery(Gallery.formGall.fill(gall)))
+      case None       => Redirect(routes.GalleryControl.galleryManager())
     }
   }
-  
+
   def remove(id: String) = Action.async { implicit request =>
     galService.removeGall(id).map {
-      case Some(_) => Redirect(routes.GalleryControl.gallery())
-      case None => Redirect(routes.GalleryControl.gallery())
+      case Some(_) => Redirect(routes.GalleryControl.galleryManager())
+      case None    => Redirect(routes.GalleryControl.galleryManager())
     }
   }
-  
+
 }

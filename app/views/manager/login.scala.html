@@ -1,16 +1,18 @@
 @(userForm: Form[models.UserData])(implicit request: RequestHeader, messages: Messages)
 
+@import b3.inline.fieldConstructor
 @import helper._
 
 @main(""){
-
+            <fieldset class="col-md-6 col-md-offset-3">
 	@helper.form(routes.UserControl.login()) {
-	  @helper.inputText(userForm("email"))
-	  @helper.inputText(userForm("passWord"))
-	  
+	           @b3.email(userForm("email"), '_label -> messages("email"), 'placeholder -> messages("email"), 'class -> "form-control")
+                      @b3.password(userForm("passWord"), '_label -> messages("password"), 'placeholder -> messages("password"), 'class -> "form-control")
+
 	  <div class="buttons">
 			<input type="submit" value="Login"/>
 		</div>
-}
+            }
+            </fieldset>
 
-}
+    }

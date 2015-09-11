@@ -1,9 +1,5 @@
 package models
 
-import play.api.data.Form
-import play.api.data.Forms._
-import play.api.data.validation.Constraints.pattern
-import play.api.libs.json.Json
 
 
 /**
@@ -16,13 +12,17 @@ case class User(
   email: String,
   password: String,
   avatarURL: Option[String],
-  active: Option[Boolean],
-  isPremium: Option[Boolean], 
-  balance: Option[Int]) {
+  active: Option[Boolean]) {
 
   def checkPassword(password: String): Boolean = this.password == password
 }
 object User {
+  import play.api.libs.json.Json
+  import play.api.data._
+  import play.api.data.Forms._
+  import play.modules.reactivemongo.json.BSONFormats._
+  import play.api.data.validation.Constraints.pattern
+  
   implicit val userJsonFormat = Json.format[User]
 
   val userFormValidation = Form(
@@ -34,10 +34,8 @@ object User {
       "email" -> nonEmptyText,
       "password" -> nonEmptyText,
       "avatarURL" -> optional(text),
-      "active" -> optional(boolean),
-      "isPremium" -> optional(boolean),
-      "balance" -> optional(number)) {
-        (_id, firstName, lastName, email, password, avatarURL, active, isPremium, balance) =>
+      "active" -> optional(boolean)) {
+        (_id, firstName, lastName, email, password, avatarURL, active) =>
           User(
             _id,
             firstName,
@@ -45,9 +43,7 @@ object User {
             email,
             password,
             avatarURL,
-            active,
-            isPremium,
-            balance)
+            active)
       } { user =>
         Some(
           (user._id,
@@ -56,8 +52,6 @@ object User {
             user.email,
             user.password,
             user.avatarURL,
-            user.active,
-            user.isPremium,
-            user.balance))
+            user.active))
       })    
 }

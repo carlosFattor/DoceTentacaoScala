@@ -32,18 +32,18 @@ class UserControl @Inject() (userService: UserService, val messagesApi: Messages
   }
   
   def logout = Action.async { implicit request =>
-    Future.successful(Ok(views.html.index("")).withNewSession)    
+    Future.successful(Ok(views.html.index()).withNewSession)    
   }
 
   def users() = Action.async { implicit request =>
     userService.findListUser().map {
-      case user => Ok(views.html.user.list_user("Usuários", user))
+      case user => Ok(views.html.manager.user.list_user("Usuários", user))
     }
   }
 
   def add = Authenticated.async { implicit request =>
     User.userFormValidation.bindFromRequest.fold(
-      err => Future.successful(BadRequest(views.html.user.create_user(err))),
+      err => Future.successful(BadRequest(views.html.manager.user.create_user(err))),
       data => {
         userService.findUser(data._id.getOrElse("")).map {
           case Some(user) => {
@@ -62,7 +62,7 @@ class UserControl @Inject() (userService: UserService, val messagesApi: Messages
     userService.findUser(id).map {
       case Some(user) => {
         println(user)
-        Ok(views.html.user.create_user(User.userFormValidation.fill(user)))
+        Ok(views.html.manager.user.create_user(User.userFormValidation.fill(user)))
       }
       case None => Redirect(routes.UserControl.users())
     }

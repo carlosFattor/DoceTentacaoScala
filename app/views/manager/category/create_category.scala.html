@@ -1,0 +1,18 @@
+@(formCat: Form[models.Category])(implicit request: RequestHeader, messages: Messages)
+
+@import helper._
+
+@main(""){
+
+        @form(controllers.routes.CategoryControl.add()){
+                @inputText(formCat("_id"))
+                @inputText(formCat("catName"))
+                @inputText(formCat("catURL"))
+                @inputText(formCat("catDesc"))
+
+                <div class="buttons">
+                        <input type="submit" value="Add Category"/>
+                </div>
+        }
+
+}
