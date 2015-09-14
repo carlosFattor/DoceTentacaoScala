@@ -1,5 +1,9 @@
 package models
 
+import play.api.data.Form
+import play.api.data.Forms
+import play.modules.reactivemongo.json.BSONFormats
+
 
 /**
  * @author carlos
@@ -10,8 +14,8 @@ case class Product(
     prodDesc: String,
     prodImgSmallURL: String,
     prodImgLargeURL: String,
-    prodCommentURL: Option[String],
-    prodFeatured: Option[String]
+    prodCommentURL: String
+    
 )
 
 object Product {
@@ -29,6 +33,5 @@ object Product {
       "prodDesc" -> nonEmptyText,
       "prodImgSmallURL" -> nonEmptyText,
       "prodImgLargeURL" -> nonEmptyText,
-      "prodCommentURL" -> optional(text),
-      "prodFeatured" -> optional(text))(Product.apply)(Product.unapply))
+      "prodCommentURL" -> nonEmptyText)(Product.apply)(Product.unapply))
 }

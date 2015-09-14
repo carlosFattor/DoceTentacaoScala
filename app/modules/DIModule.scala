@@ -11,7 +11,7 @@ import models.daos.GalleryDAOImp
 import models.daos.UserDAO
 import models.daos.UserDAOImp
 import models.services.CategoryServiceImp
-import models.services.GalleryService
+import models.services.traits.GalleryService
 import models.services.GalleryServiceImp
 import models.services.UserServiceImp
 import models.services.traits.CategoryService

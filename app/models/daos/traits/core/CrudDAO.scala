@@ -22,4 +22,5 @@ trait CrudDAO[T] {
   
   def findProjection(selector: JsObject, projection: JsObject)(implicit readsT: Reads[T]): Future[List[T]]
   
+  def findSimpleProjection(selector: JsObject, projection: JsObject)(implicit readsT: Reads[T]): Future[Option[T]]
 }

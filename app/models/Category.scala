@@ -31,6 +31,5 @@ object Category {
         "prodDesc" -> nonEmptyText,
         "prodImgSmallURL" -> nonEmptyText,
         "prodImgLargeURL" -> nonEmptyText,
-        "prodCommentURL" -> optional(text),
-        "prodFeatured" -> optional(text))(Product.apply)(Product.unapply))))(Category.apply)(Category.unapply))
+        "prodCommentURL" -> nonEmptyText)(Product.apply)(Product.unapply))))(Category.apply)(Category.unapply))
 }

@@ -1,4 +1,4 @@
-package models.services
+package models.services.traits
 
 import scala.concurrent.Future
 import models.Gallery

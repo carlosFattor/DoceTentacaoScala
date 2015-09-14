@@ -9,7 +9,7 @@ import scala.concurrent.duration.DurationInt
 import javax.inject.Inject
 import javax.inject.Singleton
 import models.Gallery
-import models.services.GalleryService
+import models.services.traits.GalleryService
 import play.api.Logger
 import play.api.i18n.I18nSupport
 import play.api.i18n.MessagesApi

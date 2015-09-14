@@ -1,0 +1,33 @@
+@(frmCat: Form[(Option[String], String, String, String, String, String, String)], cats: List[models.Category])(implicit request: RequestHeader, messages: Messages)
+
+@import helper._
+
+@main(""){
+
+    @form(controllers.routes.ProductControl.addProduct, 'class -> "form"){
+        <div class="form-group">
+            <div class="col-md-4">
+                @inputText(frmCat("_id"), 'disabled -> true)
+                @inputText(frmCat("prodName"))
+                @inputText(frmCat("prodDesc"))
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-4">
+                @inputText(frmCat("prodImgSmallURL"))
+                @inputText(frmCat("prodImgLargeURL"))
+                @inputText(frmCat("prodCommentURL"))
+
+                <div class="radio-inline">
+                @for(cat <- cats){@inputRadioGroup(
+                    frmCat("_idCat"),
+                        options(cat._id.get -> cat.catName), '_label -> cat.catName
+                    )}
+                </div>
+            </div>
+        </div>
+        <div class="buttons">
+            <input type="submit" value="Add Product"/>
+        </div>
+    }
+}

@@ -62,6 +62,10 @@ abstract class BasicCrudDAO[T](db: DB, collectionName: String) extends CrudDAO[T
       .find(selector, projection).cursor[T]()
     cursor.collect[List]()
   }
+  
+  def findSimpleProjection(selector: JsObject, projection: JsObject)(implicit readsT: Reads[T]): Future[Option[T]] = {
+    collection.find(selector, projection).one[T]
+  }
 
   private def asTryUnit(writeResult: WriteResult): Future[Try[Unit]] = Future {
     if (writeResult.ok) {

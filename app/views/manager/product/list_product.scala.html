@@ -1,0 +1,15 @@
+@(catProds: List[models.Category])
+
+@import helper._
+
+@main("") {
+
+    @for(cat <- catProds) {
+            <p>@cat.catName</p>
+
+            @for(prod <- cat.products){
+                <p>@prod.toString</p>
+            }
+    }
+
+}
