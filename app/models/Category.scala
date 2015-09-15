@@ -1,5 +1,9 @@
 package models
 
+import play.api.data.Form
+import play.api.data.Forms
+import play.modules.reactivemongo.json.BSONFormats
+
 /**
  * @author carlos
  */

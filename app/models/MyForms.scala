@@ -10,7 +10,7 @@ object MyForms {
   val productFormTuple = Form(
     tuple(
       "_id" -> optional(text),
-      "prodName" -> nonEmptyText(minLength = 4),
+      "prodName" -> nonEmptyText,
       "prodDesc" -> nonEmptyText,
       "prodImgSmallURL" -> nonEmptyText,
       "prodImgLargeURL" -> nonEmptyText,

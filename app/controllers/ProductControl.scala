@@ -18,6 +18,7 @@ import scala.util.Success
 import scala.util.Failure
 import reactivemongo.bson.BSONObjectID
 import scala.util.Failure
+import scala.concurrent.Await
 
 class ProductControl @Inject() (catService: CategoryService, val messagesApi: MessagesApi) extends Controller with I18nSupport {
 
@@ -66,7 +67,17 @@ class ProductControl @Inject() (catService: CategoryService, val messagesApi: Me
       })
   }
   
-//  def edit(_id: String) = Action.async { implicit request =>
-//    catService.find
-//  }
+  def edit(idProd: String) = Action.async { implicit request =>
+
+    catService.findListCategory().map{ cats =>
+      val prods = cats.flatMap { cat =>
+        cat.products.get.find { p => p._id.get == idProd }
+      }
+      //val prod = prods(0)
+      val prod = prods.head
+      val form = MyForms.productFormTuple.fill(prod._id, prod.prodName, prod.prodDesc, prod.prodImgSmallURL, prod.prodImgLargeURL, prod.prodCommentURL, "")
+      
+      Ok(views.html.manager.product.create_product(form, cats))
+    }
+  }
 }

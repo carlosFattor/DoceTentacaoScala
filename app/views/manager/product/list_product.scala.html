@@ -1,14 +1,18 @@
-@(catProds: List[models.Category])
+@(catProds: List[models.Category])(implicit request: RequestHeader, messages: Messages)
 
 @import helper._
 
 @main("") {
 
     @for(cat <- catProds) {
+            <p>@cat._id.get</p>
             <p>@cat.catName</p>
 
-            @for(prod <- cat.products){
-                <p>@prod.toString</p>
+
+            @for(prod <- cat.products.get){
+                <p>@prod._id.get</p>
+                <p>@prod.prodName</p>
+                <a href="@controllers.routes.ProductControl.edit(prod._id.get)" class="buttons">Edit</a>
             }
     }
 

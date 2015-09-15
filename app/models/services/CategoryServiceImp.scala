@@ -77,9 +77,11 @@ class CategoryServiceImp @Inject() (catDao: CategoryDAO) extends CategoryService
     }
   }
   
-  def findOneProduct(idCat: String, idProd: String): Future[Option[Category]] = {
+  def findOneProduct(idCat: String, idProd: String): Future[Option[Product]] = {
     catDao.read(idCat).map { 
-      case Some(cat) => Some(cat)
+      case Some(cat) => {
+        cat.products.get.find { p => p._id.get == idProd }
+      }
       case _ => None
     }
   }

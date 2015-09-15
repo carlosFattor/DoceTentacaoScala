@@ -16,4 +16,5 @@ trait CategoryService {
   //Products
   def findProduts: Future[List[Category]]
   def addProduct(prod: Product, cat: Category): Future[Option[Boolean]]
+  def findOneProduct(idCat: String, idProd: String): Future[Option[Product]]
 }
