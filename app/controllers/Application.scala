@@ -12,4 +12,12 @@ class Application @Inject()(val messagesApi: MessagesApi)extends Controller with
   def index = Action { implicit request =>
     Ok(views.html.index())
   }
+  
+  def viewLogin = Action { 
+    Ok(views.html.manager.loginView())
+  }
+  
+  def indexManager = Authenticated { implicit request =>
+    Ok(views.html.manager.home())
+  }
 }

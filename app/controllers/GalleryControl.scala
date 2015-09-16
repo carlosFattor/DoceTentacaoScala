@@ -38,7 +38,7 @@ class GalleryControl @Inject() (galService: GalleryService, val messagesApi: Mes
     }
   }
 
-  def galleryManager = Action.async { implicit request =>
+  def galleryManager = Authenticated.async { implicit request =>
 
     val galls = galService.findListGall()
     galls.map {
@@ -51,7 +51,7 @@ class GalleryControl @Inject() (galService: GalleryService, val messagesApi: Mes
     }
   }
 
-  def add = Action.async { implicit request =>
+  def add = Authenticated.async { implicit request =>
     Gallery.formGall.bindFromRequest.fold(
       formErr => Future.successful(Ok(views.html.manager.gallery.create_gallery(formErr)).flashing("fail" -> messagesApi("fail.add"))),
       data => {
@@ -79,14 +79,14 @@ class GalleryControl @Inject() (galService: GalleryService, val messagesApi: Mes
       }
   }
 
-  def edit(id: String) = Action.async { implicit request =>
+  def edit(id: String) = Authenticated.async { implicit request =>
     galService.find(id).map {
       case Some(gall) => Ok(views.html.manager.gallery.create_gallery(Gallery.formGall.fill(gall)))
       case None       => Redirect(routes.GalleryControl.galleryManager())
     }
   }
 
-  def remove(id: String) = Action.async { implicit request =>
+  def remove(id: String) = Authenticated.async { implicit request =>
     galService.removeGall(id).map {
       case Some(_) => Redirect(routes.GalleryControl.galleryManager()).flashing("success" -> messagesApi("success.remove"))
       case None    => Redirect(routes.GalleryControl.galleryManager()).flashing("fail" -> messagesApi("fail.update"))

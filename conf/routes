@@ -16,12 +16,15 @@ GET    /learn                                   controllers.ContactControl.knowM
 
 
 ######MANAGER#####
+#Home
+GET    /manager                                 controllers.Application.viewLogin
+GET    /manager/index                           controllers.Application.indexManager
+
 #Gallery
 GET    /manager/gallery                         controllers.GalleryControl.galleryManager
 POST   /manager/gallery/add                     controllers.GalleryControl.add
 GET    /manager/gallery/add                     controllers.GalleryControl.add
 GET    /manager/gallery/edit/id                 controllers.GalleryControl.edit(id)
-
 GET    /manager/gallery/remove/id               controllers.GalleryControl.remove(id)
 
 #User
@@ -34,6 +37,7 @@ GET    /manager/users/remove/:id                controllers.UserControl.remove(i
 #Login
 POST   /manager/login                           controllers.UserControl.login
 GET    /manager/login                           controllers.UserControl.login
+GET    /manager/logout                          controllers.UserControl.logout
 
 #Category
 GET    /manager/category                        controllers.CategoryControl.categoryManager

@@ -18,9 +18,8 @@
 
         <div class="container">
             <div class="row" style="margin-bottom: 100px;">
-            @if(galls.isEmpty){
-                <p class="text-warning">Gallery is empty!</p>
-            }
+            @if(!galls.isEmpty){
+
             <div>
                 <a href="@controllers.routes.GalleryControl.add" class="btn btn-default">Criar</a>
             </div>
@@ -42,7 +41,9 @@
                         }
                     </table>
             </div>
-        </div>
 
+        </div>
+        }
+        </div>
 
 }

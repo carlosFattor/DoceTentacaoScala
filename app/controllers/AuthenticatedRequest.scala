@@ -2,6 +2,7 @@ package controllers
 
 import play.api.mvc._
 import scala.concurrent.Future
+import play.api.mvc.Results._
 
 class UserRequest[A](val email: Option[String], request: Request[A]) extends WrappedRequest[A](request)
 
@@ -18,7 +19,7 @@ object Authenticated extends ActionBuilder[AuthenticatedRequest] {
     request.session.get("email").map { email =>
       block(new AuthenticatedRequest(email, request))
     } getOrElse {
-      Future.successful(Results.Forbidden("Invalid username or password"))
+      Future.successful(Redirect(routes.Application.viewLogin()))
     }
   }
 }

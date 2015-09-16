@@ -27,7 +27,7 @@
                 <div class="name">Nilda - Doce & Tentação<span class="entypo-down-open"></span></div>
                 <div class="drop">
                     <br>
-                    <p><a href="#">Logout</a></p>
+                    <p><a href="@controllers.routes.UserControl.logout">Logout</a></p>
                 </div>
               </div>
             </section>
@@ -35,16 +35,18 @@
           <aside>
         <nav role='navigversionedion'>
           <ul>
-            <li><a href="#"><span class="entypo-rocket"></span><span class="menu-item">Home</span></a></li>
+            <li><a href="@controllers.routes.Application.indexManager"><span class="entypo-rocket"></span><span class="menu-item">Home</span></a></li>
             <li><a href="@controllers.routes.CategoryControl.categoryManager"><span class="entypo-archive"></span><span class="menu-item">Categoria</span></a></li>
             <li><a href="@controllers.routes.ProductControl.prodAndCat"><span class="entypo-briefcase"></span><span class="menu-item">Produto</span></a></li>
             <li><a href="@controllers.routes.GalleryControl.galleryManager"><span class="entypo-camera"></span><span class="menu-item">Galeria</span></a></li>
-            <li><a href="#"><span class="entypo-user"></span><span class="menu-item">Usuarios</span></a></li>
+            <li><a href="@controllers.routes.UserControl.users"><span class="entypo-user"></span><span class="menu-item">Usuarios</span></a></li>
         </nav>
           </aside>
           <section class="main-content">
             <div class="container">
+              <div class="jumbotron">
               @content
+              </div>
               </div>
           </section>
           <footer></footer>

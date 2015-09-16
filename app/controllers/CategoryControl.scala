@@ -20,7 +20,7 @@ class CategoryControl @Inject() (catService: CategoryService, val messagesApi: M
 
   implicit val timeout = 10.seconds
 
-  def category = Action.async { implicit request =>
+  def category = Authenticated.async { implicit request =>
     val cats = catService.findSimplesCategories(new String)
     cats.map {
       cat => Ok(views.html.category.list_category(cat))
@@ -31,7 +31,7 @@ class CategoryControl @Inject() (catService: CategoryService, val messagesApi: M
     }
   }
 
-  def categoryManager = Action.async { implicit request =>
+  def categoryManager = Authenticated.async { implicit request =>
     val cats = catService.findSimplesCategories(new String)
     cats.map {
       cat => Ok(views.html.manager.category.list_category(cat))
@@ -42,7 +42,7 @@ class CategoryControl @Inject() (catService: CategoryService, val messagesApi: M
     }
   }
 
-  def add = Action.async { implicit request =>
+  def add = Authenticated.async { implicit request =>
     Category.formGall.bindFromRequest.fold(
       error => Future.successful(Ok(views.html.manager.category.create_category(error)).flashing("success" -> messagesApi("fail.add"))),
       data => {
@@ -64,7 +64,7 @@ class CategoryControl @Inject() (catService: CategoryService, val messagesApi: M
       }
   }
 
-  def edit(id: String) = Action.async { implicit request =>
+  def edit(id: String) = Authenticated.async { implicit request =>
     catService.findOneCategory(id).map {
       case Some(cat) => Ok(views.html.manager.category.create_category(Category.formGall.fill(cat)))
       case None      => Redirect(routes.CategoryControl.categoryManager())
@@ -75,7 +75,7 @@ class CategoryControl @Inject() (catService: CategoryService, val messagesApi: M
       }
   }
 
-  def remove(id: String) = Action.async { implicit request =>
+  def remove(id: String) = Authenticated.async { implicit request =>
     catService.removeCategory(id).map {
       case Some(ok) => Redirect(routes.CategoryControl.categoryManager()).flashing("success" -> messagesApi("success.remove"))
       case None     => Redirect(routes.CategoryControl.categoryManager()).flashing("fail" -> messagesApi("fail.remove.category"))

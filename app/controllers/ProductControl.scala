@@ -24,7 +24,7 @@ class ProductControl @Inject() (catService: CategoryService, val messagesApi: Me
 
   implicit val timeout = 10.seconds
 
-  def prodAndCat = Action.async { implicit request =>
+  def prodAndCat = Authenticated.async { implicit request =>
     catService.findProduts.flatMap { cats =>
       Future.successful(Ok(views.html.manager.product.list_product(cats)))
     }.recover {
@@ -34,7 +34,7 @@ class ProductControl @Inject() (catService: CategoryService, val messagesApi: Me
     }
   }
 
-  def addProduct = Action.async { implicit request =>
+  def addProduct = Authenticated.async { implicit request =>
     val cat = MyForms.productFormTuple.bindFromRequest()
     cat.fold(
       frmError => {
@@ -69,7 +69,7 @@ class ProductControl @Inject() (catService: CategoryService, val messagesApi: Me
       })
   }
 
-  def edit(idProd: String, idCat: String) = Action.async { implicit request =>
+  def edit(idProd: String, idCat: String) = Authenticated.async { implicit request =>
     catService.findListCategory().map { cats =>
       val prod = cats.flatMap { cat =>
         cat.products.get.find { p => p._id.get == idProd }
@@ -81,7 +81,7 @@ class ProductControl @Inject() (catService: CategoryService, val messagesApi: Me
     }
   }
   
-  def remove(idCat: String, idProd: String) = Action.async { implicit request =>
+  def remove(idCat: String, idProd: String) = Authenticated.async { implicit request =>
     catService.removeProduct(idCat, idProd).map {
       case Some(ok) => Redirect(routes.ProductControl.prodAndCat()).flashing("success" -> messagesApi("success.remove"))
       case None => Redirect(routes.ProductControl.prodAndCat()).flashing("fail" -> messagesApi("fail.remove.product"))

@@ -4,7 +4,7 @@
 
 @main_manager("teste"){
 	@form(controllers.routes.UserControl.add()){
-		@inputText(formUser("_id"))
+		<input type="hidden" name="_id" value="@formUser("_id").value" />
 		@inputText(formUser("firstName"), '_label -> "Nome", 'required -> true)
 		@inputText(formUser("lastName"))
 		@inputText(formUser("email"))

@@ -1,21 +1,40 @@
-@(msg: String, users: List[models.User])(implicit request: RequestHeader, messages: Messages)
+@(msg: String, users: List[models.User])(implicit request: RequestHeader, messages: Messages, flash: Flash)
 
 @import helper._
 
 @main_manager(msg) {
 
+	@if(flash.get("fail")) {
+           		 <div class="alert alert-danger">@flash.get("fail")</div>
+        	}
+
+        	@if(flash.get("success")) {
+            	<div class="alert alert-success">@flash.get("success")</div>
+        	}
+
+	<table class="table table-striped table-hover">
+	<th>Avatar</th>
+	<th>Nome</th>
+	<th>SobreNome</th>
+	<th>Email</th>
+	<th>Ativo</th>
+	<th></th>
+	<th></th>
 	@for(user <- users){
-			@user.firstName
-			@user.lastName
-			@user.email
-			@user.password
-			@user.avatarURL
-			@user.active
+		<tr>
+			<td><img src="@user.avatarURL" class="img-circle"></td>
+			<td>@user.firstName</td>
+			<td>@user.lastName</td>
+			<td>@user.email</td>
+			<td>@user.active</td>
 
+			<td><a href="@controllers.routes.UserControl.edit(user._id.get)">Editar</a></td>
+			<td><a href="@controllers.routes.UserControl.remove(user._id.get)" onclick="return confirm('Tem certeza?');">Remover</a></td>
 
-			<a href="@controllers.routes.UserControl.edit(user._id.get)">Editar</a>
-			<a href="@controllers.routes.UserControl.remove(user._id.get)">Remover</a>
-
-			<br />
+		</tr>
 		}
+	</table>
+	<div>
+            	<a href="@controllers.routes.UserControl.add" class="btn btn-default">Criar</a>
+        	</div>
 	}
