@@ -3,7 +3,7 @@
 @import b3.inline.fieldConstructor
 @import helper._
 
-@main(""){
+@main_manager(""){
             <fieldset class="col-md-6 col-md-offset-3">
 	@helper.form(routes.UserControl.login()) {
 	           @b3.email(userForm("email"), '_label -> messages("email"), 'placeholder -> messages("email"), 'class -> "form-control")

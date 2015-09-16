@@ -1,0 +1,350 @@
+@import
+    url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic)
+    ;
+
+@import url(http://weloveiconfonts.com/api/?family=entypo);
+
+#id_field {
+    display: none;
+}
+
+[class*="entypo-"]:before {
+    font-family: 'entypo', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    color: #797979;
+    background: #EEE;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 13px;
+}
+
+a:link, a:visited, a:active {
+    color: #333;
+    text-decoration: none;
+}
+
+a:hover {
+    color: crimson;
+}
+
+::selection {
+    background: crimson;
+    color: #fff;
+}
+
+.wrapper {
+    width: 100%;
+    height: 100%;
+}
+
+header {
+    min-height: 55px;
+    background: #333;
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 1002;
+}
+/* NAVIGATION */
+nav {
+    width: 80px;
+    height: 100%;
+    position: fixed;
+    background: #777;
+    padding-top: 85px;
+    transition: all 0.5s ease;
+    -webkit-transition: all 0.5s ease;
+    z-index: 1003;
+}
+
+nav:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 55px;
+    background: #666;
+}
+
+nav ul {
+    position: relative;
+    padding: 5px;
+}
+
+nav ul li {
+    padding: 10px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.5s ease;
+    -webkit-transition: all 0.5s ease;
+}
+/* TEST NAV */
+nav ul li [class*="entypo-"] {
+    display: inline;
+    font-size: 30px;
+    position: relative;
+    left: 15px;
+    transition: all 0.5s ease;
+    -webkit-transition: all 0.5s ease;
+}
+
+nav ul .menu-item {
+    display: none;
+    padding-left: 10px;
+    font-size: 11px;
+    text-transform: uppercase;
+}
+
+nav:hover ul [class*="entypo-"] {
+    left: 0;
+    font-size: 15px;
+}
+/* TEST NAV END */
+nav ul li:hover {
+    background: crimson;
+}
+
+nav ul li:hover:before {
+    content: '';
+    border-color: transparent #EEE transparent transparent;
+    right: 0;
+    border-width: 10px;
+    position: absolute;
+    border-style: solid;
+    top: 8px;
+}
+
+nav a:link, nav a:visited, nav a:active, nav a:hover {
+    color: #EEE;
+}
+/* NAVIGATION SUB MENU */
+nav .subnav {
+    display: none;
+    background: #666;
+}
+
+nav .subnav li {
+    padding: 10px;
+    font-size: 10px;
+    text-transform: uppercase;
+}
+
+nav .subnav li:hover {
+    background: crimson;
+    border-left: 10px solid #B31131;
+}
+
+nav .subnav li:hover:before {
+    top: 6px;
+}
+
+nav .subnav li [class*="entypo-"] {
+    top: 0;
+    left: 0;
+    font-size: 11px;
+}
+/* HEADER USERPANEL */
+header .userpanel {
+    width: 280px;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 50px;
+    background: #373939;
+    cursor: pointer;
+    z-index: 100;
+}
+
+header .userpanel .user {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    text-align: center;
+    color: white;
+}
+
+header .userpanel .user>div:nth-child(-n+2) {
+    border-right: 2px solid #333;
+}
+
+header .userpanel .notification {
+    width: 60px;
+    height: 100%;
+    line-height: 60px;
+    float: left;
+    display: block;
+    position: relative;
+}
+
+header .userpanel .notification [class*="entypo-"] {
+    font-size: 17px;
+    margin-right: 13px;
+}
+
+header .userpanel .notification .number {
+    width: 20px;
+    height: 20px;
+    background: #2890E6;
+    border-radius: 5px;
+    line-height: 20px;
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    z-index: -1;
+}
+
+header .userpanel .picture {
+    width: 60px;
+    height: 100%;
+    line-height: 55px;
+    float: left;
+    display: block;
+    position: relative;
+}
+
+header .userpanel .picture img {
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+    border-radius: 7px;
+    overflow: hidden;
+    filter: grayscale(0.8);
+    -webkit-filter: grayscale(0.8);
+}
+
+header .userpanel .picture img:hover {
+    filter: grayscale(0);
+    -webkit-filter: grayscale(0);
+}
+
+header .userpanel .name {
+    width: 160px;
+    height: 100%;
+    line-height: 55px;
+    float: left;
+    display: block;
+    position: relative;
+    text-align: left;
+    padding: 0 10px;
+}
+
+header .userpanel .name [class*="entypo-"] {
+    position: absolute;
+    font-size: 20px;
+    right: 15px;
+    transition: all 0.5s ease;
+    -webkit-transition: all 0.5s ease;
+}
+
+header .userpanel .drop {
+    width: 160px;
+    min-height: 100px;
+    display: none;
+    position: absolute;
+    top: 55px;
+    right: 0;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    background: crimson;
+}
+
+header .userpanel .drop:before {
+    content: '';
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-bottom: 9px solid crimson;
+    left: 15px;
+    top: -8px;
+    position: absolute;
+}
+/* CONTENT */
+.main-content {
+    height: calc(100% - 55px);
+    margin-left: 10%;
+    transition: all 0.5s ease;
+    -webkit-transition: all 0.5s ease;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+    margin-top: 55px;
+    padding: 15px;
+}
+
+.nav-hover {
+    width: 150px;
+}
+
+.push {
+    margin-left: 150px;
+}
+
+.arrow {
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+}
+
+.active {
+    background: #B31131 !important;
+}
+
+.tb-post-list {
+    position: relative;
+    z-index: 5;
+    padding: 50px 20px 0px;
+    margin: 0px auto 70px;
+    max-width: 1300px;
+    text-align: center;
+    -moz-column-count: 4;
+    -moz-column-gap: 30px;
+}
+
+.tb-post-call {
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 30px;
+    border-radius: 3px;
+    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.09);
+    vertical-align: top;
+    background: none repeat scroll 0% 0% #FFF;
+}
+
+.tb-post-call a {
+    position: relative;
+    text-decoration: none;
+    display: block;
+    min-height: inherit;
+    padding: 0px 0px 40px;
+}
+
+.tb-post-call h2 {
+    font: 300 1.3rem/1.5 "Open Sans", sans-serif;
+    padding: 30px 10% 20px;
+    color: rgba(0, 0, 0, 0.6);
+    text-decoration: none;
+}
+
+.call-img {
+    height: auto;
+    max-width: 100%;
+}
+
+.fieldHidden {
+    display: none;
+}
+.fieldHidden dt {
+    display: none;
+}

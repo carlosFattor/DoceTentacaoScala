@@ -1,0 +1,59 @@
+@(title: String)(content: Html)
+
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compversionedible" content="IE=edge,chrome=1">
+        <title>@title</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="@routes.Assets.versioned("css/main_manager.css")">
+        <link rel="shortcut icon" href="@routes.Assets.versioned("img/icons/favicon.ico")">
+        <link rel="stylesheet" href="@routes.Assets.versioned("css/bootstrap.min.css")">
+
+    </head>
+    <body>
+        <section class="wrapper">
+          <header>
+            <section class="userpanel">
+              <div class="user">
+                <div class="notificversionedion"></div>
+                <div class="picture"><img src="@routes.Assets.versioned("img/icons/favicon-70.png")" alt="User Name" /></div>
+                <div class="name">Nilda - Doce & Tentação<span class="entypo-down-open"></span></div>
+                <div class="drop">
+                    <br>
+                    <p><a href="#">Logout</a></p>
+                </div>
+              </div>
+            </section>
+          </header>
+          <aside>
+        <nav role='navigversionedion'>
+          <ul>
+            <li><a href="#"><span class="entypo-rocket"></span><span class="menu-item">Home</span></a></li>
+            <li><a href="@controllers.routes.CategoryControl.categoryManager"><span class="entypo-archive"></span><span class="menu-item">Categoria</span></a></li>
+            <li><a href="@controllers.routes.ProductControl.prodAndCat"><span class="entypo-briefcase"></span><span class="menu-item">Produto</span></a></li>
+            <li><a href="@controllers.routes.GalleryControl.galleryManager"><span class="entypo-camera"></span><span class="menu-item">Galeria</span></a></li>
+            <li><a href="#"><span class="entypo-user"></span><span class="menu-item">Usuarios</span></a></li>
+        </nav>
+          </aside>
+          <section class="main-content">
+            <div class="container">
+              @content
+              </div>
+          </section>
+          <footer></footer>
+        </section>
+
+            <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+            <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.1.min.js"><\/script>')</script>
+            <script src="@routes.Assets.versioned("js/vendor/modernizr-2.6.2-respond-1.1.0.min.js")"></script>
+            <script src="@routes.Assets.versioned("js/main_manager.js")"></script>
+            <script src="@routes.Assets.versioned("js/vendor/bootstrap.min.js")"></script>
+    </body>
+</html>

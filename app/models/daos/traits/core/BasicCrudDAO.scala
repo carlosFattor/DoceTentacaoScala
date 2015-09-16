@@ -18,6 +18,7 @@ import reactivemongo.api.Cursor
 import reactivemongo.api.commands.WriteResult
 import play.api.libs.json.Json.JsValueWrapper
 
+
 abstract class BasicCrudDAO[T](db: DB, collectionName: String) extends CrudDAO[T] {
 
   val collection = db[JSONCollection](collectionName)

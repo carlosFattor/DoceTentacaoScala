@@ -36,9 +36,6 @@
           $("header .userpanel .drop").filter(':not(:animated)').fadeOut();
       });
 
-  // Container Scroll Bar
-
-     $("html").niceScroll({styler:"fb",cursorcolor:"#e8403f", cursorwidth: '6', cursorborderradius: '10px', background: '#404040', spacebarenabled:false,  cursorborder: '', zindex: '1000'});
   });
 
   //Email Validator
@@ -68,3 +65,4 @@ function checkEmail(email) {
         var re = /^([\w_\-\.])+@([\w_\-\.])+\.([\w]{2,4})$/;
         return !re.test(email) ? false : true;
     }
+

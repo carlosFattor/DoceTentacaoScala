@@ -2,12 +2,12 @@
 
 @import helper._
 
-@main(""){
+@main_manager(""){
 
     @form(controllers.routes.ProductControl.addProduct, 'class -> "form"){
         <div class="form-group">
             <div class="col-md-4">
-                @inputText(frmCat("_id"), 'disabled -> true)
+                <input type="hidden" name="_id" value="@frmCat("_id").value" />
                 @inputText(frmCat("prodName"))
                 @inputText(frmCat("prodDesc"))
             </div>

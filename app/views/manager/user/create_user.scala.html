@@ -2,7 +2,7 @@
 
 @import helper._
 
-@main("teste"){
+@main_manager("teste"){
 	@form(controllers.routes.UserControl.add()){
 		@inputText(formUser("_id"))
 		@inputText(formUser("firstName"), '_label -> "Nome", 'required -> true)

@@ -44,17 +44,17 @@ class CategoryControl @Inject() (catService: CategoryService, val messagesApi: M
 
   def add = Action.async { implicit request =>
     Category.formGall.bindFromRequest.fold(
-      error => Future.successful(Ok(views.html.manager.category.create_category(error))),
+      error => Future.successful(Ok(views.html.manager.category.create_category(error)).flashing("success" -> messagesApi("fail.add"))),
       data => {
         catService.findOneCategory(data._id.getOrElse("")).map {
           case Some(cat) => {
             catService.updateCategory(data)
-            Redirect(routes.CategoryControl.categoryManager())
+            Redirect(routes.CategoryControl.categoryManager()).flashing("success" -> messagesApi("success.update"))
           }
           case None => {
             val cat = data.copy(_id = Some(BSONObjectID.generate.stringify))
             catService.addCategory(cat)
-            Redirect(routes.CategoryControl.categoryManager())
+            Redirect(routes.CategoryControl.categoryManager()).flashing("success" -> messagesApi("success.add"))
           }
         }
       }).recover {
@@ -68,7 +68,22 @@ class CategoryControl @Inject() (catService: CategoryService, val messagesApi: M
     catService.findOneCategory(id).map {
       case Some(cat) => Ok(views.html.manager.category.create_category(Category.formGall.fill(cat)))
       case None      => Redirect(routes.CategoryControl.categoryManager())
-    }
+    }.recover {
+        case t: TimeoutException =>
+          Logger.error("Problem adding in Category list process")
+          InternalServerError(t.getMessage)
+      }
+  }
+
+  def remove(id: String) = Action.async { implicit request =>
+    catService.removeCategory(id).map {
+      case Some(ok) => Redirect(routes.CategoryControl.categoryManager()).flashing("success" -> messagesApi("success.remove"))
+      case None     => Redirect(routes.CategoryControl.categoryManager()).flashing("fail" -> messagesApi("fail.remove.category"))
+    }.recover {
+        case t: TimeoutException =>
+          Logger.error("Problem adding in Category list process")
+          InternalServerError(t.getMessage)
+      }
   }
 
 }

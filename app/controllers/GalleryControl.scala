@@ -53,14 +53,13 @@ class GalleryControl @Inject() (galService: GalleryService, val messagesApi: Mes
 
   def add = Action.async { implicit request =>
     Gallery.formGall.bindFromRequest.fold(
-      formErr => Future.successful(Ok(views.html.manager.gallery.create_gallery(formErr))),
+      formErr => Future.successful(Ok(views.html.manager.gallery.create_gallery(formErr)).flashing("fail" -> messagesApi("fail.add"))),
       data => {
         galService.find(data._id.getOrElse("")).flatMap {
-
           case Some(_) =>
             galService.updateGall(data).map {
-              case Some(x) => Redirect(routes.GalleryControl.galleryManager())
-              case None    => Redirect(routes.GalleryControl.galleryManager())
+              case Some(x) => Redirect(routes.GalleryControl.galleryManager()).flashing("success" -> messagesApi("success.update"))
+              case None    => Redirect(routes.GalleryControl.galleryManager()).flashing("fail" -> messagesApi("fail.update"))
             }
 
           case None =>
@@ -71,7 +70,7 @@ class GalleryControl @Inject() (galService: GalleryService, val messagesApi: Mes
               galURLSmall = data.galURLSmall,
               galURLLarge = data.galURLLarge)
             galService.addGall(gall)
-            Future.successful(Redirect(routes.GalleryControl.galleryManager()))
+            Future.successful(Redirect(routes.GalleryControl.galleryManager()).flashing("success" -> messagesApi("success.add")))
         }
       }).recover {
         case t: TimeoutException =>
@@ -89,8 +88,8 @@ class GalleryControl @Inject() (galService: GalleryService, val messagesApi: Mes
 
   def remove(id: String) = Action.async { implicit request =>
     galService.removeGall(id).map {
-      case Some(_) => Redirect(routes.GalleryControl.galleryManager())
-      case None    => Redirect(routes.GalleryControl.galleryManager())
+      case Some(_) => Redirect(routes.GalleryControl.galleryManager()).flashing("success" -> messagesApi("success.remove"))
+      case None    => Redirect(routes.GalleryControl.galleryManager()).flashing("fail" -> messagesApi("fail.update"))
     }
   }
 

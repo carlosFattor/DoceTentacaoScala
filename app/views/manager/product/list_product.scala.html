@@ -1,19 +1,51 @@
-@(catProds: List[models.Category])(implicit request: RequestHeader, messages: Messages)
+@(catProds: List[models.Category])(implicit request: RequestHeader, messages: Messages, flash: Flash)
 
 @import helper._
 
-@main("") {
+@main_manager("") {
 
+    @if(flash.get("fail")) {
+            <div class="alert alert-danger">@flash.get("fail")</div>
+        }
+
+        @if(flash.get("success")) {
+            <div class="alert alert-success">@flash.get("success")</div>
+        }
+        <div>
+            <a href="@controllers.routes.ProductControl.addProduct" class="btn btn-default">Criar</a>
+        </div>
     @for(cat <- catProds) {
-            <p>@cat._id.get</p>
-            <p>@cat.catName</p>
 
 
-            @for(prod <- cat.products.get){
-                <p>@prod._id.get</p>
-                <p>@prod.prodName</p>
-                <a href="@controllers.routes.ProductControl.edit(prod._id.get)" class="buttons">Edit</a>
-            }
+                <h3>@cat.catName</h3>
+
+                @if(!cat.products.isEmpty){
+                            <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                    <th></th>
+                                    <th>Imagem</th>
+                                    <th>Nome</th>
+                                    <th>Descrição</th>
+                                    <th></th>
+                                    <th></th>
+                                @for(prod <- cat.products.get){
+
+                                    <tr>
+                                        <td><input type="hidden" name="_id" value="@prod._id.get" /></td>
+                                        <td><img src="@prod.prodImgSmallURL" class="img-thumbnail"  style="max-width: 15%;  height: auto;" /></td>
+                                        <td><p>@prod.prodName</p></td>
+                                        <td><p>@prod.prodDesc</p></td>
+                                        <td><a href="@controllers.routes.ProductControl.edit(prod._id.get, cat._id.get)" class="buttons">Edit</a></td>
+                                        <td><a href="@controllers.routes.ProductControl.remove(cat._id.get, prod._id.get)" class="buttons" onclick="return confirm('Tem certeza?');">Remove</a></td>
+                                    </tr>
+
+                                }
+                            </table>
+                            </div>
+
+                }else{
+                    <h1>Sem produtos cadastrados</h1>
+                }
     }
 
 }

@@ -2,11 +2,9 @@
 
 @import helper._
 
-@main("teste"){
+@main_manager("teste"){
 	@form(controllers.routes.GalleryControl.add()){
-		@if(formGall("_id").value != null){
-				@inputText(formGall("_id"),    'style -> "display: none")
-			}
+		<input type="hidden" name="_id" value="@formGall("_id").value" />
 		@inputText(formGall("galName"), '_label -> "Nome", 'required -> true)
 		@inputText(formGall("galDesc"))
 		@inputText(formGall("galURLSmall"))

@@ -57,16 +57,23 @@ class CategoryServiceImp @Inject() (catDao: CategoryDAO) extends CategoryService
     catDao.read(id)
   }
 
+  def removeCategory(_id: String): Future[Option[Boolean]] = {
+    catDao.delete(_id).map {
+      case Success(a) => Some(true)
+      case Failure(e) => None
+    }
+  }
+
   /**
    * Products
    */
   def findProduts: Future[List[Category]] = catDao.findAll()
-  
+
   def addProduct(prod: Product, cat: Category): Future[Option[Boolean]] = {
     var prodMutable = scala.collection.mutable.Seq[models.Product]()
-    if(!cat.products.isEmpty){
+    if (!cat.products.isEmpty) {
       prodMutable = scala.collection.mutable.ArraySeq(cat.products.get.toSeq: _*).+:(prod)
-    }else{
+    } else {
       prodMutable = scala.collection.mutable.ArraySeq(prod)
     }
 
@@ -76,13 +83,26 @@ class CategoryServiceImp @Inject() (catDao: CategoryDAO) extends CategoryService
       case _       => None
     }
   }
-  
+
+  def updateProduct(prod: Product, cat: Category): Future[Option[Category]] = {
+    val prods = cat.products.get.filter { p => p._id.get != prod._id.get }.+:(prod)
+    val newCat = Category(cat._id, cat.catName, cat.catURL, cat.catDesc, Some(prods.toList))
+    this.updateCategory(newCat)
+  }
+
   def findOneProduct(idCat: String, idProd: String): Future[Option[Product]] = {
-    catDao.read(idCat).map { 
+    catDao.read(idCat).map {
       case Some(cat) => {
         cat.products.get.find { p => p._id.get == idProd }
       }
       case _ => None
+    }
+  }
+
+  def removeProduct(idCat: String, idProd: String): Future[Option[Boolean]] = {
+    catDao.removeProduct(idCat, idProd).map {
+      case Success(a) => Some(true)
+      case Failure(e) => None
     }
   }
 

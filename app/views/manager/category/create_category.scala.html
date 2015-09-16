@@ -2,10 +2,12 @@
 
 @import helper._
 
-@main(""){
+@main_manager(""){
+
+
 
         @form(controllers.routes.CategoryControl.add()){
-                @inputText(formCat("_id"))
+                <input type="hidden" name="_id" value="@formCat("_id").value" />
                 @inputText(formCat("catName"))
                 @inputText(formCat("catURL"))
                 @inputText(formCat("catDesc"))

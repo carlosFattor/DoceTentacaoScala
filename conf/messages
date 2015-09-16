@@ -6,5 +6,13 @@ group=O grupo.
 about=Sobre nós!
 category=Categoria
 
+#Category | Product
+fail.remove.category=Não foi possivel excluir a categoria
+fail.remove.product=Não foi possivel excluir o Produto
+fail.add=Erro ao cadastrar
+fail.update=Erro no Update
+success.remove=Exclusão OK
+success.update=Update OK
+success.add=Cadastro OK
 
 info.about=Somos um grupo familiar, que trabalha para atender a necessidades de nossos amigos. Estamos sempre tentando criar mais e melhor, se você tiver a necessidade de algo de nossos produtos diferenciado, por-favor, entre em contato, estaremos sempre dispostos a ajuda-lo a ter o que você imagina poder ter!

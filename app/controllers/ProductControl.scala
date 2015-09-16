@@ -36,22 +36,24 @@ class ProductControl @Inject() (catService: CategoryService, val messagesApi: Me
 
   def addProduct = Action.async { implicit request =>
     val cat = MyForms.productFormTuple.bindFromRequest()
-
     cat.fold(
       frmError => {
         catService.findListCategory().flatMap { lista =>
-          Future.successful(Ok(views.html.manager.product.create_product(cat, lista)))
+          Future.successful(Ok(views.html.manager.product.create_product(cat, lista)).flashing("fail" -> messagesApi("fail.add")))
         }
       },
       {
         case (Some(_id), prodName, prodDesc, prodImgSmallURL, prodImgLargeURL, prodCommentURL, _idCat) => {
           val productComp = Product(Some(_id), prodName, prodDesc, prodImgSmallURL, prodImgLargeURL, prodCommentURL)
-          catService.findOneCategory(_idCat).map {
+          catService.findOneCategory(_idCat).flatMap {
             case Some(category) => {
-              catService.addProduct(productComp, category)
-              Ok("productComp")
+              catService.updateProduct(productComp, category).map {
+                case Some(a) => Redirect(routes.ProductControl.prodAndCat()).flashing("success" -> messagesApi("success.update"))
+                case None    => Redirect(routes.ProductControl.prodAndCat()).flashing("fail" -> messagesApi("fail.update"))
+              }
+
             }
-            case None => Ok("ProdComp NOK")
+            case None => Future.successful(Ok("ProdComp NOK"))
           }
         }
         case (None, prodName, prodDesc, prodImgSmallURL, prodImgLargeURL, prodCommentURL, _idCat) => {
@@ -59,25 +61,31 @@ class ProductControl @Inject() (catService: CategoryService, val messagesApi: Me
           catService.findOneCategory(_idCat).map {
             case Some(category) => {
               catService.addProduct(productNComp, category)
-              Ok("productNComp")
+              Redirect(routes.ProductControl.prodAndCat()).flashing("success" -> messagesApi("success.add"))
             }
-            case None => Ok("productNComp NOK")
+            case None => Redirect(routes.ProductControl.addProduct()).flashing("fail" -> messagesApi("fail.add"))
           }
         }
       })
   }
-  
-  def edit(idProd: String) = Action.async { implicit request =>
 
-    catService.findListCategory().map{ cats =>
-      val prods = cats.flatMap { cat =>
+  def edit(idProd: String, idCat: String) = Action.async { implicit request =>
+    catService.findListCategory().map { cats =>
+      val prod = cats.flatMap { cat =>
         cat.products.get.find { p => p._id.get == idProd }
-      }
-      //val prod = prods(0)
-      val prod = prods.head
-      val form = MyForms.productFormTuple.fill(prod._id, prod.prodName, prod.prodDesc, prod.prodImgSmallURL, prod.prodImgLargeURL, prod.prodCommentURL, "")
-      
+      }.head
+
+      val form = MyForms.productFormTuple.fill(prod._id, prod.prodName, prod.prodDesc, prod.prodImgSmallURL, prod.prodImgLargeURL, prod.prodCommentURL, idCat)
+
       Ok(views.html.manager.product.create_product(form, cats))
     }
   }
+  
+  def remove(idCat: String, idProd: String) = Action.async { implicit request =>
+    catService.removeProduct(idCat, idProd).map {
+      case Some(ok) => Redirect(routes.ProductControl.prodAndCat()).flashing("success" -> messagesApi("success.remove"))
+      case None => Redirect(routes.ProductControl.prodAndCat()).flashing("fail" -> messagesApi("fail.remove.product"))
+    }
+  }
+
 }

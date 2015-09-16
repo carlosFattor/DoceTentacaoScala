@@ -3,6 +3,7 @@ package models
 import play.api.data.Form
 import play.api.data.Forms
 import play.modules.reactivemongo.json.BSONFormats
+import play.api.libs.json.Format
 
 /**
  * @author carlos
@@ -22,7 +23,8 @@ object Category {
   import play.modules.reactivemongo.json.BSONFormats._
   
   implicit val jsonCategoryFormat = Json.format[Category]
-
+  implicit val miniFormat: Format[Category] = Json.format[Category]
+  
   val formGall = Form(
     mapping(
       "_id" -> optional(text),

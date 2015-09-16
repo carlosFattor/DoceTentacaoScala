@@ -7,6 +7,8 @@ import play.api.libs.json.OWrites
 import play.modules.reactivemongo.json.collection.JSONCollection
 import play.api.libs.json.Reads
 import play.api.libs.json.JsObject
+import play.api.libs.json.Writes
+import play.api.libs.json.Json
 
 trait CrudDAO[T] {
   
@@ -23,4 +25,5 @@ trait CrudDAO[T] {
   def findProjection(selector: JsObject, projection: JsObject)(implicit readsT: Reads[T]): Future[List[T]]
   
   def findSimpleProjection(selector: JsObject, projection: JsObject)(implicit readsT: Reads[T]): Future[Option[T]]
+  
 }
