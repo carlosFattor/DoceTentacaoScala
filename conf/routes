@@ -10,9 +10,15 @@ GET    /gallery                                 controllers.GalleryControl.galle
 
 #Category/Product
 GET    /category                                controllers.CategoryControl.category()
+GET    /category/:idCat                         controllers.ProductControl.list(idCat)
+GET    /category/product/:idCat/:idProd         controllers.ProductControl.detail(idCat, idProd)
 
 #KnowMore
 GET    /learn                                   controllers.ContactControl.knowMore
+
+#Contact
+GET    /contact                                 controllers.ContactControl.create
+POST   /contact/send                            controllers.ContactControl.contact
 
 
 ######MANAGER#####

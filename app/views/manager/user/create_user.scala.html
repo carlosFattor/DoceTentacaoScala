@@ -1,18 +1,16 @@
 @(formUser: Form[models.User])(implicit request: RequestHeader, messages: Messages)
 
-@import helper._
+@import b3.vertical.fieldConstructor
 
-@main_manager("teste"){
-	@form(controllers.routes.UserControl.add()){
+@main_manager(messages("ndt")){
+	@b3.form(controllers.routes.UserControl.add()){
 		<input type="hidden" name="_id" value="@formUser("_id").value" />
-		@inputText(formUser("firstName"), '_label -> "Nome", 'required -> true)
-		@inputText(formUser("lastName"))
-		@inputText(formUser("email"))
-		@inputText(formUser("password"))
-		@inputText(formUser("avatarURL"))
+		@b3.text(formUser("firstName"), '_label -> messages("name"), 'required -> true)
+		@b3.text(formUser("lastName"))
+		@b3.text(formUser("email"), '_label -> messages("email"), 'required -> true)
+		@b3.text(formUser("password"), '_label -> messages("password"), 'required -> true)
+		@b3.text(formUser("avatarURL"),  '_label -> messages("avatar.url"), 'required -> true)
 
-		<div class="buttons">
-			<input type="submit" value="Add User"/>
-		</div>
+		@b3.submit('class -> "btn btn-default"){@messages("add")}
 	}
 }

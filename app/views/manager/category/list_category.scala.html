@@ -1,6 +1,6 @@
 @(cats: List[models.Category])(implicit request: RequestHeader, messages: Messages, flash: Flash)
 
-@main_manager(messages("category")){
+@main_manager(messages("ndt")){
 
         @if(flash.get("fail")) {
             <div class="alert alert-danger">@flash.get("fail")</div>
@@ -12,17 +12,19 @@
 
     @if(!cats.isEmpty){
         <div class="table-responsive">
+                <h2>@messages("list.cat")</h2>
+                <hr />
                 <div>
                 <div class="buttons">
-                        <a href="@controllers.routes.CategoryControl.add" class="btn btn-default" >Criar Categoria</a>
+                        <a href="@controllers.routes.CategoryControl.add" class="btn btn-default" >@messages("create.category")</a>
                 </div>
                 <table class="table table-striped table-hover">
                     @for(cat <- cats){
                         <tr>
                             <td>@cat.catName</td>
                             <td><img src="@cat.catURL" style="max-width: 15%;  height: auto;"></td>
-                            <td><a href="@controllers.routes.CategoryControl.edit(cat._id.get)">Edit</a></td>
-                            <td><a href="@controllers.routes.CategoryControl.remove(cat._id.get)" onclick="return confirm('Tem certeza?');">Remove</a></td>
+                            <td><a href="@controllers.routes.CategoryControl.edit(cat._id.get)">@messages("edit")</a></td>
+                            <td><a href="@controllers.routes.CategoryControl.remove(cat._id.get)" onclick="return confirm('Tem certeza?');">@messages("remove")</a></td>
                         </tr>
                     }
                 </table>

@@ -1,20 +1,19 @@
 @(formCat: Form[models.Category])(implicit request: RequestHeader, messages: Messages)
 
-@import helper._
-
-@main_manager(""){
+@import b3.vertical.fieldConstructor
 
 
+@main_manager(messages("ndt")){
 
-        @form(controllers.routes.CategoryControl.add()){
+        @b3.form(controllers.routes.CategoryControl.add()){
+                <h2>Descrição</h2>
+                <hr />
                 <input type="hidden" name="_id" value="@formCat("_id").value" />
-                @inputText(formCat("catName"))
-                @inputText(formCat("catURL"))
-                @inputText(formCat("catDesc"))
+                @b3.text(formCat("catName"), '_label -> "Nome", 'class -> "form-control")
+                @b3.text(formCat("catURL"), '_label -> messages("url"))
+                @b3.text(formCat("catDesc"), '_label -> messages("description"), 'class -> "form-control")
 
-                <div class="buttons">
-                        <input type="submit" value="Add Category"/>
-                </div>
+                @b3.submit('class -> "btn btn-default"){@messages("add")}
         }
 
 }

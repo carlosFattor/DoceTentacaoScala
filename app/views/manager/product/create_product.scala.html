@@ -1,33 +1,22 @@
-@(frmCat: Form[(Option[String], String, String, String, String, String, String)], cats: List[models.Category])(implicit request: RequestHeader, messages: Messages)
+@(frmCat: Form[(Option[String], String, String, String, String, String, String)], cats: Seq[(String,String)])(implicit request: RequestHeader, messages: Messages)
 
-@import helper._
+@import b3.vertical.fieldConstructor
 
-@main_manager(""){
+@main_manager(messages("ndt")){
 
-    @form(controllers.routes.ProductControl.addProduct, 'class -> "form"){
-        <div class="form-group">
-            <div class="col-md-4">
+    @b3.vertical.form(controllers.routes.ProductControl.addProduct) { implicit hfc =>
+
                 <input type="hidden" name="_id" value="@frmCat("_id").value" />
-                @inputText(frmCat("prodName"))
-                @inputText(frmCat("prodDesc"))
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-4">
-                @inputText(frmCat("prodImgSmallURL"))
-                @inputText(frmCat("prodImgLargeURL"))
-                @inputText(frmCat("prodCommentURL"))
+                @b3.text(frmCat("prodName"), '_label -> messages("name"))
+                @b3.text(frmCat("prodDesc"), '_label -> messages("description"))
 
-                <div class="radio-inline">
-                @for(cat <- cats){@inputRadioGroup(
-                    frmCat("_idCat"),
-                        options(cat._id.get -> cat.catName), '_label -> cat.catName
-                    )}
-                </div>
-            </div>
-        </div>
-        <div class="buttons">
-            <input type="submit" value="Add Product"/>
-        </div>
+                @b3.text(frmCat("prodImgSmallURL"), '_label -> messages("url.small"))
+                @b3.text(frmCat("prodImgLargeURL"), '_label -> messages("url.large"))
+                @b3.text(frmCat("prodCommentURL"), '_label -> messages("description"))
+
+                @b3.select(frmCat("_idCat"), options = cats, '_label -> messages("category"), '_default -> messages("select"))
+
+                @b3.submit('class -> "btn btn-default"){@messages("add")}
+
     }
 }

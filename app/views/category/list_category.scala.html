@@ -1,11 +1,19 @@
-@(cats: List[models.Category])(implicit request: RequestHeader, messages: Messages)
+@(cats: List[models.Category])(implicit request: RequestHeader, messages: Messages, flash: Flash)
 
 @main(messages("category")){
 
-    <div class="container" >
-        <div class="page-header hidden-xs">
-            <h1>Nossos produtos!</h1>
-            <p>Confira todos os nossos produtos e delicie-se!</p>
+     @if(flash.get("fail")) {
+            <div class="alert alert-danger">@flash.get("fail")</div>
+        }
+
+        @if(flash.get("success")) {
+            <div class="alert alert-success">@flash.get("success")</div>
+        }
+
+        <div class="container" >
+            <div class="page-header hidden-xs">
+                <h1>@messages("our.products")</h1>
+                <p>@messages("our.products.detail")</p>
         </div>
         <div class="row" style="margin-bottom: 100px;">
             @if(cats.isEmpty){
@@ -16,7 +24,7 @@
                         <div class="thumbnail">
                         <div style="margin-left: 25px;">
                         </div>
-                        <a href="#" class="thumbnail">
+                        <a href="@controllers.routes.ProductControl.list(cat._id.get)" class="thumbnail">
                             <img src="@cat.catURL"
                             class="img-rounded" data-placement="top" title="@cat.catDesc"
                             style="width: 90%;">

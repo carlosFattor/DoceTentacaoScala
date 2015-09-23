@@ -1,0 +1,33 @@
+@(prods: List[models.Product], idCat: String)(implicit request: RequestHeader, messages: Messages, flash: Flash)
+
+@main(messages("products")){
+
+        @if(flash.get("fail")) {
+            <div class="alert alert-danger">@flash.get("fail")</div>
+        }
+
+        @if(flash.get("success")) {
+            <div class="alert alert-success">@flash.get("success")</div>
+        }
+
+        <div class="row" style="margin-bottom: 100px;">
+            @if(prods.isEmpty){
+                <p class="text-warning">Lista de produtos vazia!</p>
+            }
+            @for(prod <- prods){
+                    <div class="col-md-3 col-sm-4 col-xs-8">
+                        <div class="thumbnail">
+                        <div style="margin-left: 25px;">
+                        </div>
+                        <a href="@controllers.routes.ProductControl.detail(idCat, prod._id.get)" class="thumbnail img-responsive">
+                            <img src="@prod.prodImgSmallURL"
+                            class="img-rounded" data-placement="top" title="@prod.prodDesc"
+                            style="width: 90%;">
+                        </a>
+                        <h6>@prod.prodName</h6>
+                    </div>
+                </div>
+
+            }
+        </div>
+}

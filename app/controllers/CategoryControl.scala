@@ -44,7 +44,7 @@ class CategoryControl @Inject() (catService: CategoryService, val messagesApi: M
 
   def add = Authenticated.async { implicit request =>
     Category.formGall.bindFromRequest.fold(
-      error => Future.successful(Ok(views.html.manager.category.create_category(error)).flashing("success" -> messagesApi("fail.add"))),
+      error => Future.successful(Ok(views.html.manager.category.create_category(error))),
       data => {
         catService.findOneCategory(data._id.getOrElse("")).map {
           case Some(cat) => {

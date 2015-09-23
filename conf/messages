@@ -1,3 +1,7 @@
+ndt=Nilda Doce Tentação
+
+error.required=*
+
 email=Email
 password=Password
 cite=Nilda - Doce&Tentação
@@ -5,14 +9,43 @@ gallery=Galeria
 group=O grupo.
 about=Sobre nós!
 category=Categoria
+name=Nome
+add=Adicionar
+url=URL
+description=Descrição
+list.cat=Lista de Categorias
+create=Criar
+edit=Editar
+remove=Remover
+select=Selecione
+avatar.url=URL do Avatar
+
 
 #Category | Product
+category=Categoria
+product=Produto
 fail.remove.category=Não foi possivel excluir a categoria
 fail.remove.product=Não foi possivel excluir o Produto
 fail.add=Erro ao cadastrar
 fail.update=Erro no Update
+fail.find=Não encontrado
 success.remove=Exclusão OK
 success.update=Update OK
 success.add=Cadastro OK
+create.category=Criar Categoria
+url.small=URL da imagem menor
+url.large=URL da imagem maior
+our.products=Nossos produtos!
+our.products.detail=Confira todos os nossos produtos e delicie-se!
+
+
+#Gallery
+gallery=Galeria
+add.iten=Adicionar item a galeria
 
 info.about=Somos um grupo familiar, que trabalha para atender a necessidades de nossos amigos. Estamos sempre tentando criar mais e melhor, se você tiver a necessidade de algo de nossos produtos diferenciado, por-favor, entre em contato, estaremos sempre dispostos a ajuda-lo a ter o que você imagina poder ter!
+
+
+#Contact
+email.send=E-mail enviado com sucesso
+email.send.fail=Erro ao enviar o e-mail, por favor tente novamente!

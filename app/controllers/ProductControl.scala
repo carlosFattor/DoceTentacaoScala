@@ -24,6 +24,21 @@ class ProductControl @Inject() (catService: CategoryService, val messagesApi: Me
 
   implicit val timeout = 10.seconds
 
+  def list(idCat: String) = Action.async { implicit request =>
+    catService.findOneCategory(idCat).map {
+      case Some(a) => Ok(views.html.category.list_products(a.products.getOrElse(List.empty), idCat))
+      case None    => Redirect(routes.CategoryControl.category()).flashing("fail" -> messagesApi("faill.find"))
+    }
+  }
+
+  def detail(idCat: String, idProd: String) = Action.async { implicit request =>
+    catService.findOneProduct(idCat, idProd).map {
+      case Some(a) => Ok(views.html.category.product(a))
+      case None    => Ok("")
+    }
+
+  }
+
   def prodAndCat = Authenticated.async { implicit request =>
     catService.findProduts.flatMap { cats =>
       Future.successful(Ok(views.html.manager.product.list_product(cats)))
@@ -39,7 +54,7 @@ class ProductControl @Inject() (catService: CategoryService, val messagesApi: Me
     cat.fold(
       frmError => {
         catService.findListCategory().flatMap { lista =>
-          Future.successful(Ok(views.html.manager.product.create_product(cat, lista)).flashing("fail" -> messagesApi("fail.add")))
+          Future.successful(Ok(views.html.manager.product.create_product(cat, lista.map { t => (t._id.get, t.catName) })))
         }
       },
       {
@@ -71,20 +86,21 @@ class ProductControl @Inject() (catService: CategoryService, val messagesApi: Me
 
   def edit(idProd: String, idCat: String) = Authenticated.async { implicit request =>
     catService.findListCategory().map { cats =>
+      val map = cats.map { t => (t._id.get, t.catName) }
       val prod = cats.flatMap { cat =>
         cat.products.get.find { p => p._id.get == idProd }
       }.head
 
       val form = MyForms.productFormTuple.fill(prod._id, prod.prodName, prod.prodDesc, prod.prodImgSmallURL, prod.prodImgLargeURL, prod.prodCommentURL, idCat)
 
-      Ok(views.html.manager.product.create_product(form, cats))
+      Ok(views.html.manager.product.create_product(form, cats.map { t => (t._id.get, t.catName) }))
     }
   }
-  
+
   def remove(idCat: String, idProd: String) = Authenticated.async { implicit request =>
     catService.removeProduct(idCat, idProd).map {
       case Some(ok) => Redirect(routes.ProductControl.prodAndCat()).flashing("success" -> messagesApi("success.remove"))
-      case None => Redirect(routes.ProductControl.prodAndCat()).flashing("fail" -> messagesApi("fail.remove.product"))
+      case None     => Redirect(routes.ProductControl.prodAndCat()).flashing("fail" -> messagesApi("fail.remove.product"))
     }
   }
 

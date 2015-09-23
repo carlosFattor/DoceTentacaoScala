@@ -1,17 +1,16 @@
 @(formGall: Form[models.Gallery])(implicit request: RequestHeader, messages: Messages)
 
-@import helper._
+@import b3.vertical.fieldConstructor
 
 @main_manager("teste"){
-	@form(controllers.routes.GalleryControl.add()){
+	<h2>@messages("add.iten")</h2>
+	@b3.form(controllers.routes.GalleryControl.add()){
 		<input type="hidden" name="_id" value="@formGall("_id").value" />
-		@inputText(formGall("galName"), '_label -> "Nome", 'required -> true)
-		@inputText(formGall("galDesc"))
-		@inputText(formGall("galURLSmall"))
-		@inputText(formGall("galURLLarge"))
+		@b3.text(formGall("galName"), '_label -> messages("name"), 'required -> true)
+		@b3.text(formGall("galDesc"), '_label -> messages("description"), 'required -> true)
+		@b3.text(formGall("galURLSmall"), '_label -> messages("url.small"), 'required -> true)
+		@b3.text(formGall("galURLLarge"), '_label -> messages("url.large"), 'required -> true)
 
-		<div class="buttons">
-			<input type="submit" value="Add Gallery"/>
-		</div>
+		@b3.submit('class -> "btn btn-default"){@messages("add")}
 	}
 }
