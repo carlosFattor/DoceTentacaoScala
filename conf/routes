@@ -20,7 +20,6 @@ GET    /learn                                   controllers.ContactControl.knowM
 GET    /contact                                 controllers.ContactControl.create
 POST   /contact/send                            controllers.ContactControl.doCreate
 
-
 ######MANAGER#####
 #Home
 GET    /manager                                 controllers.Application.viewLogin
