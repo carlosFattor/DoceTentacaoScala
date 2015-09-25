@@ -1,10 +1,7 @@
 package models
 
 import play.api.data.Form
-import play.api.data.Forms.nonEmptyText
-import play.api.data.Forms.optional
-import play.api.data.Forms.text
-import play.api.data.Forms.tuple
+import play.api.data.Forms._
 
 object MyForms {
   val productFormTuple = Form(
@@ -15,5 +12,6 @@ object MyForms {
       "prodImgSmallURL" -> nonEmptyText,
       "prodImgLargeURL" -> nonEmptyText,
       "prodCommentURL" -> nonEmptyText,
-      "_idCat" -> nonEmptyText))
+      "_idCat" -> nonEmptyText,
+      "prodFeature" -> optional(boolean)))
 }

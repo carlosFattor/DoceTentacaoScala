@@ -1,6 +1,54 @@
 @(contact: Form[models.MailToContact])(implicit request: RequestHeader, messages: Messages, flash: Flash)
 
-@main(""){
+@import b3.vertical.fieldConstructor
 
+@main(messages("contact")){
+
+    @if(flash.get("error")) {
+                <div class="alert alert-error">
+                    @flash.get("fail")
+                </div>
+            }
+
+            @if(flash.get("success")) {
+                <div class="alert alert-success">
+                    @flash.get("success")
+                </div>
+            }
+
+            <div class="col-xs-9 col-sm-6 col-md-6" style="margin-bottom: 100px;">
+                    <h2>@messages("contact")</h2>
+
+                    @b3.form(controllers.routes.ContactControl.doCreate){
+                            <p class="name">
+                                    @b3.text(contact("name"), 'required -> true, '_label -> messages("name"), 'placeholder -> messages("name"))
+                            </p>
+
+                            <p class="email">
+                                    @b3.email(contact("to"), 'required -> true, '_label -> messages("email"), 'placeholder -> messages("email"))
+                            </p>
+
+                            <p class="web">
+                                @b3.text(contact("site"), '_label -> messages("web"), 'placeholder -> messages("web"))
+                            </p>
+
+                            <p class="text">
+                                @b3.textarea(contact("comment"), 'required -> true, '_label -> null)
+                            </p>
+
+                            @b3.submit('class -> "btn btn-default"){@messages("send")}
+                    }
+
+            </div>
+            <div class="col-md-6 hidden-xs">
+            <aside>
+                <blockquote>
+                  <p>Agradecemos pelo interesse em entrar em contato conosco, fique a vontade para reclamações ou sugestões.
+                    <br />Use tambêm este formulário para consultar nossos preços.</p>
+                    <h3>Deixe sua sugestão!</h3>
+                  <footer>Nossa equipe agradece. <cite title="Obrigado!">Obrigado!</cite></footer>
+                </blockquote>
+            </aside>
+        </div>
 
 }

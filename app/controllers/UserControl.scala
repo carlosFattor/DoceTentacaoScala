@@ -3,7 +3,6 @@ package controllers
 import scala.concurrent.Future
 import javax.inject.Inject
 import models.User
-import models.services.traits.UserService
 import play.api.i18n.{ I18nSupport, MessagesApi, Messages, Lang }
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.mvc.{ AnyContent, Result, Controller, Action }
@@ -11,6 +10,7 @@ import play.api.Play.current
 import models.UserData
 import scala.util.Failure
 import scala.util.Success
+import models.services.UserService
 
 class UserControl @Inject() (userService: UserService, val messagesApi: MessagesApi) extends Controller with I18nSupport {
 

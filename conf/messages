@@ -19,6 +19,9 @@ edit=Editar
 remove=Remover
 select=Selecione
 avatar.url=URL do Avatar
+web=Web-Site
+send=Enviar
+featured=Destaque
 
 
 #Category | Product
@@ -47,5 +50,6 @@ info.about=Somos um grupo familiar, que trabalha para atender a necessidades de 
 
 
 #Contact
+contact=Contato
 email.send=E-mail enviado com sucesso
 email.send.fail=Erro ao enviar o e-mail, por favor tente novamente!

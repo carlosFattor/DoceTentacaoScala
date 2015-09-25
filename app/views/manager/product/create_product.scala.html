@@ -1,4 +1,4 @@
-@(frmCat: Form[(Option[String], String, String, String, String, String, String)], cats: Seq[(String,String)])(implicit request: RequestHeader, messages: Messages)
+@(frmCat: Form[(Option[String], String, String, String, String, String, String, Option[Boolean])], cats: Seq[(String,String)])(implicit request: RequestHeader, messages: Messages)
 
 @import b3.vertical.fieldConstructor
 
@@ -15,8 +15,7 @@
                 @b3.text(frmCat("prodCommentURL"), '_label -> messages("description"))
 
                 @b3.select(frmCat("_idCat"), options = cats, '_label -> messages("category"), '_default -> messages("select"))
-
+                @b3.checkbox(frmCat("prodFeature"), '_label -> messages("featured"))
                 @b3.submit('class -> "btn btn-default"){@messages("add")}
-
     }
 }

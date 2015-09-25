@@ -1,12 +1,12 @@
 package models.services
 
 import scala.concurrent.Future
+
 import javax.inject.Inject
 import javax.inject.Singleton
 import models.Gallery
 import models.daos.GalleryDAO
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
-import models.services.traits.GalleryService
 
 /**
  * @author carlos
@@ -39,4 +39,13 @@ class GalleryServiceImp @Inject() (galleryDao: GalleryDAO) extends GalleryServic
     }
   }
 
+}
+
+trait GalleryService {
+  
+  def findListGall(): Future[List[Gallery]]
+  def find(id: String): Future[Option[Gallery]]  
+  def addGall(gall: Gallery): Future[Option[Gallery]]
+  def updateGall(gall: Gallery): Future[Option[Gallery]]
+  def removeGall(id: String): Future[Option[Boolean]]
 }

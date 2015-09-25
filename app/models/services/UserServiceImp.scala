@@ -1,17 +1,14 @@
 package models.services
 
 import scala.concurrent.Future
+import scala.util.Failure
+import scala.util.Success
 import javax.inject.Inject
 import models.User
 import models.daos.UserDAO
-import models.services.traits.UserService
-import play.api.libs.concurrent.Execution.Implicits._
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
-import reactivemongo.bson.BSONDocument
+import play.api.libs.json.Json
 import reactivemongo.bson.BSONObjectID
-import scala.util.Failure
-import scala.util.Success
-import play.api.libs.json._
 
 class UserServiceImp @Inject() (userDao: UserDAO) extends UserService {
 
@@ -46,4 +43,13 @@ class UserServiceImp @Inject() (userDao: UserDAO) extends UserService {
     userDao.findByType("email", email)
   }
 
+}
+
+trait UserService {
+  def findListUser(): Future[List[User]]
+  def addUser(user: User): Future[Option[User]]
+  def findUser(id: String): Future[Option[User]]
+  def updateUSer(user: User): Future[Option[User]]
+  def removeUser(id: String): Future[Option[Boolean]]
+  def findUserByEmail(email: String): Future[Option[User]]
 }

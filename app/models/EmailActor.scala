@@ -1,38 +1,37 @@
 package models
 
-import akka.actor._
-import play.api.Play.current
-import play.api.libs.concurrent.Akka
-import play.api.libs.mailer._
-import play.api.Play.current
-import java.io.File
+import akka.actor.Actor
+import akka.actor.Props
 import javax.inject.Inject
-import play.api.libs.json.Json
+import play.api.Play.current
 import play.api.data.Form
-import play.api.i18n.I18nSupport
-import play.api.i18n.MessagesApi
+import play.api.data.Forms
+import play.api.libs.concurrent.Akka
+import play.api.libs.json.Json
+import play.api.libs.mailer.Email
+import play.api.libs.mailer.MailerClient
 
-object EmailActor {
-  val actor = Akka.system.actorOf(Props[EmailActor])
-}
-
-class EmailActor @Inject()(mailer: MailerClient) extends Actor {
-
-  def receive = {
-    case m: MailToContact    => sendEmail(m, views.html.email.email_contact(m).body)
-    case m: MailToNewsLetter => sendEmail(m, "")
-  }
+class EmailActor @Inject() (mailer: MailerClient) {
 
   def sendEmail(m: EmailMessage, body: String) {
-    val email = Email(
+    val email2Contact = Email(
       m.subject,
       "Nilda Doce Tentação <carlos.fattor@gmail.com>",
       Seq(m.to),
       bodyText = Some(body),
       bodyHtml = Some(body))
-    mailer.send(email)
+    mailer.send(email2Contact)
   }
 
+  def sendEmailAdmin(m: EmailMessage, body: String) {
+    val email2Contact = Email(
+      m.subject,
+      "Nilda Doce Tentação <carlos.fattor@gmail.com>",
+      Seq("carlos.fattor@gmail.com"),
+      bodyText = Some(body),
+      bodyHtml = Some(body))
+    mailer.send(email2Contact)
+  }
 }
 
 sealed trait EmailMessage {

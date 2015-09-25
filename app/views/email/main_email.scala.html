@@ -1,0 +1,80 @@
+@(title: String)(content: Html)
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Nilda - Doce Tentação</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body style="margin: 0; padding: 0;">
+    <table align="center" border="1" cellpadding="0" cellspacing="0"
+        width="600" style="border-collapse: collapse;">
+        <tr>
+            <td align="center" bgcolor="#47292B" style="padding: 40px 0 30px 0;">
+                <img src="@routes.Assets.versioned("img/icons/logo_bolos.png")"
+                alt="Criando Mágica de E-mail" width="300" height="166"
+                style="display: block;" />
+            </td>
+        </tr>
+        <tr>
+            <br>
+                @content
+            <br>
+        </tr>
+        <tr>
+            <td bgcolor="#47292B" style="padding: 30px 30px 30px 30px;">
+                <table align="center" border="0" cellpadding="0" cellspacing="0"
+                width="600" style="border-collapse: collapse; background-color: #47292B" >
+                    <tr>
+                        <td width="75%" style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;" bgcolor="#47292B">
+                            &copy; 2010<script>
+                                new Date().getFullYear() > 2010
+                                        && document.write("-"
+                                                + new Date().getFullYear());
+                            </script>,
+                            <a href="http://www.nildadocetentacao.com" target="_blank"
+                            style="text-decoration: none; color: white;">Nilda -
+                                Doce&Tentaçao</a>.<br> <footer style="font-size: 10px;">
+                                Developed by. <cite title="GuildaCode"><a
+                                    href="http://www.guildacode.com.br"
+                                    style="text-decoration: none; color: black;">&copy;GuildaCode</a></cite>
+                            </footer>
+                        </td>
+                        <td>
+                            <table>
+                                <tr>
+                                    <td style="font-size: 0; line-height: 0;" width="20">&nbsp;</td>
+                                    <td><a href="https://twitter.com/Nilda_Doce"
+                                        target="_blank"> <img
+                                            src="http://nildadocetentacao.com.br/assets/images/icons/twitter.png"
+                                            alt="Criando Mágica de E-mail" style="display: block;" />
+                                    </a></td>
+                                    <td style="font-size: 0; line-height: 0;" width="20">&nbsp;</td>
+                                    <td><a href="https://www.facebook.com/nildadocetentacao"
+                                        target="_blank"> <img
+                                            src="http://nildadocetentacao.com.br/assets/images/icons/face.png"
+                                            alt="Criando Mágica de E-mail" style="display: block;" />
+                                    </a></td>
+                                    <td style="font-size: 0; line-height: 0;" width="20">&nbsp;</td>
+                                    <td><a href="http://instagram.com/nildadocetentacao/"
+                                        target="_blank"> <img
+                                            src="http://nildadocetentacao.com.br/assets/images/icons/insta.png"
+                                            alt="Criando Mágica de E-mail" style="display: block;" />
+                                    </a></td>
+                                    <td style="font-size: 0; line-height: 0;" width="20">&nbsp;</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

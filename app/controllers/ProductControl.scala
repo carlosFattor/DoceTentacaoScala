@@ -6,7 +6,6 @@ import scala.concurrent.Future
 import scala.concurrent.duration.DurationInt
 import javax.inject.Inject
 import models.Category
-import models.services.traits.CategoryService
 import play.api.Logger
 import play.api.i18n.I18nSupport
 import play.api.i18n.MessagesApi
@@ -19,6 +18,7 @@ import scala.util.Failure
 import reactivemongo.bson.BSONObjectID
 import scala.util.Failure
 import scala.concurrent.Await
+import models.services.CategoryService
 
 class ProductControl @Inject() (catService: CategoryService, val messagesApi: MessagesApi) extends Controller with I18nSupport {
 
@@ -58,8 +58,8 @@ class ProductControl @Inject() (catService: CategoryService, val messagesApi: Me
         }
       },
       {
-        case (Some(_id), prodName, prodDesc, prodImgSmallURL, prodImgLargeURL, prodCommentURL, _idCat) => {
-          val productComp = Product(Some(_id), prodName, prodDesc, prodImgSmallURL, prodImgLargeURL, prodCommentURL)
+        case (Some(_id), prodName, prodDesc, prodImgSmallURL, prodImgLargeURL, prodCommentURL, _idCat, prodFeature) => {
+          val productComp = Product(Some(_id), prodName, prodDesc, prodImgSmallURL, prodImgLargeURL, prodCommentURL, prodFeature)
           catService.findOneCategory(_idCat).flatMap {
             case Some(category) => {
               catService.updateProduct(productComp, category).map {
@@ -71,8 +71,8 @@ class ProductControl @Inject() (catService: CategoryService, val messagesApi: Me
             case None => Future.successful(Ok("ProdComp NOK"))
           }
         }
-        case (None, prodName, prodDesc, prodImgSmallURL, prodImgLargeURL, prodCommentURL, _idCat) => {
-          val productNComp = Product(Some(BSONObjectID.generate.stringify), prodName, prodDesc, prodImgSmallURL, prodImgLargeURL, prodCommentURL)
+        case (None, prodName, prodDesc, prodImgSmallURL, prodImgLargeURL, prodCommentURL, _idCat, prodFeature) => {
+          val productNComp = Product(Some(BSONObjectID.generate.stringify), prodName, prodDesc, prodImgSmallURL, prodImgLargeURL, prodCommentURL, prodFeature)
           catService.findOneCategory(_idCat).map {
             case Some(category) => {
               catService.addProduct(productNComp, category)
@@ -86,12 +86,12 @@ class ProductControl @Inject() (catService: CategoryService, val messagesApi: Me
 
   def edit(idProd: String, idCat: String) = Authenticated.async { implicit request =>
     catService.findListCategory().map { cats =>
-      val map = cats.map { t => (t._id.get, t.catName) }
+      //val map = cats.map { t => (t._id.get, t.catName) }
       val prod = cats.flatMap { cat =>
         cat.products.get.find { p => p._id.get == idProd }
       }.head
 
-      val form = MyForms.productFormTuple.fill(prod._id, prod.prodName, prod.prodDesc, prod.prodImgSmallURL, prod.prodImgLargeURL, prod.prodCommentURL, idCat)
+      val form = MyForms.productFormTuple.fill(prod._id, prod.prodName, prod.prodDesc, prod.prodImgSmallURL, prod.prodImgLargeURL, prod.prodCommentURL, idCat, prod.prodFeature)
 
       Ok(views.html.manager.product.create_product(form, cats.map { t => (t._id.get, t.catName) }))
     }

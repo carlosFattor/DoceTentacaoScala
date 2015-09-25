@@ -9,7 +9,6 @@ import models.Category
 import models.Product
 import models._
 import models.daos.CategoryDAO
-import models.services.traits.CategoryService
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 import play.api.libs.json.Format
 import play.api.libs.json.JsArray
@@ -132,4 +131,21 @@ class CategoryServiceImp @Inject() (catDao: CategoryDAO) extends CategoryService
       })
   }
 
+}
+
+trait CategoryService {
+  //Categories
+  def addCategory(cat: Category): Future[Option[Category]]
+  def findListCategory(): Future[List[Category]]
+  def findSimplesCategories(id: String): Future[List[Category]]
+  def findOneCategory(id: String): Future[Option[Category]]
+  def updateCategory(cat: Category): Future[Option[Category]]
+  def removeCategory(_id: String): Future[Option[Boolean]]
+  
+  //Products
+  def findProduts: Future[List[Category]]
+  def addProduct(prod: Product, cat: Category): Future[Option[Boolean]]
+  def findOneProduct(idCat: String, idProd: String): Future[Option[Product]]
+  def updateProduct(prod: Product, cat: Category): Future[Option[Category]]
+  def removeProduct(idCat: String, idProd: String): Future[Option[Boolean]]
 }

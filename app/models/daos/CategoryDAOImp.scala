@@ -16,6 +16,7 @@ import play.api.libs.json.Json.toJsFieldJsValueWrapper
 import play.modules.reactivemongo.json.JsObjectDocumentWriter
 import reactivemongo.api.DB
 import reactivemongo.api.commands.WriteResult
+import models.daos.traits.core.CrudDAO
 
 
 class CategoryDAOImp @Inject() (db: DB) extends BasicCrudDAO[Category](db, "categories") with CategoryDAO {
@@ -37,4 +38,8 @@ class CategoryDAOImp @Inject() (db: DB) extends BasicCrudDAO[Category](db, "cate
       Failure((writeResult))
     }
   }
+}
+
+trait CategoryDAO extends CrudDAO[Category]{
+  def removeProduct(idCat: String, idProd: String): Future[Try[Unit]]
 }

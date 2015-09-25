@@ -28,6 +28,7 @@ libraryDependencies ++= Seq(
   "org.reactivemongo" %% "play2-reactivemongo" % "0.11.7.play24",
   "org.webjars" % "bootstrap" % "3.1.1",
   "com.adrianhurt" %% "play-bootstrap3" % "0.4.4-P24",
+  "org.apache.commons" % "commons-email" % "1.3.3",
   "com.typesafe.play" %% "play-mailer" % "3.0.1"
 )
 

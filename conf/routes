@@ -18,7 +18,7 @@ GET    /learn                                   controllers.ContactControl.knowM
 
 #Contact
 GET    /contact                                 controllers.ContactControl.create
-POST   /contact/send                            controllers.ContactControl.contact
+POST   /contact/send                            controllers.ContactControl.doCreate
 
 
 ######MANAGER#####

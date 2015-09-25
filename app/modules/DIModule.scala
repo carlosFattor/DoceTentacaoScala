@@ -10,22 +10,25 @@ import models.daos.GalleryDAO
 import models.daos.GalleryDAOImp
 import models.daos.UserDAO
 import models.daos.UserDAOImp
+import models.services.CategoryService
 import models.services.CategoryServiceImp
-import models.services.traits.GalleryService
+import models.services.GalleryService
 import models.services.GalleryServiceImp
+import models.services.UserService
 import models.services.UserServiceImp
-import models.services.traits.CategoryService
-import models.services.traits.UserService
 import play.api.Configuration
 import play.api.Environment
+import play.api.libs.concurrent.AkkaGuiceSupport
 import reactivemongo.api.DB
 import reactivemongo.api.MongoDriver
+
+
 
 /**
  * @author carlos
  */
 
-case class DIModule(environment: Environment, configuration: Configuration) extends AbstractModule {
+case class DIModule(environment: Environment, configuration: Configuration) extends AbstractModule with AkkaGuiceSupport{
   import scala.concurrent.ExecutionContext.Implicits.global
 
   def configure() {
@@ -49,7 +52,6 @@ case class DIModule(environment: Environment, configuration: Configuration) exte
     bind(classOf[GalleryDAO]).to(classOf[GalleryDAOImp])
     bind(classOf[UserDAO]).to(classOf[UserDAOImp])
     bind(classOf[CategoryDAO]).to(classOf[CategoryDAOImp])
-    
   }
   
   private def bindServices(): Unit = {
@@ -57,5 +59,4 @@ case class DIModule(environment: Environment, configuration: Configuration) exte
     bind(classOf[UserService]).to(classOf[UserServiceImp])
     bind(classOf[CategoryService]).to(classOf[CategoryServiceImp])
   }
-  
 }

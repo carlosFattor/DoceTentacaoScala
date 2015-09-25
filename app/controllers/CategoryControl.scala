@@ -1,26 +1,26 @@
 package controllers
 
 import java.util.concurrent.TimeoutException
-
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import scala.concurrent.duration.DurationInt
-
+import scala.concurrent.duration._
 import javax.inject.Inject
 import models.Category
-import models.services.traits.CategoryService
 import play.api.Logger
 import play.api.i18n.I18nSupport
 import play.api.i18n.MessagesApi
 import play.api.mvc.Action
 import play.api.mvc.Controller
 import reactivemongo.bson.BSONObjectID
+import models.services.CategoryService
+import play.api.cache.Cached
 
-class CategoryControl @Inject() (catService: CategoryService, val messagesApi: MessagesApi) extends Controller with I18nSupport {
+
+class CategoryControl @Inject() (catService: CategoryService, val messagesApi: MessagesApi, cached: Cached) extends Controller with I18nSupport {
 
   implicit val timeout = 10.seconds
 
-  def category = Authenticated.async { implicit request =>
+  def category = cached("list_category").default(timeout){ Action.async { implicit request =>
     val cats = catService.findSimplesCategories(new String)
     cats.map {
       cat => Ok(views.html.category.list_category(cat))
@@ -29,6 +29,7 @@ class CategoryControl @Inject() (catService: CategoryService, val messagesApi: M
         Logger.error("Problem adding in Category list process")
         InternalServerError(t.getMessage)
     }
+  }
   }
 
   def categoryManager = Authenticated.async { implicit request =>
