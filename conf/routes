@@ -20,6 +20,7 @@ GET    /learn                                   controllers.ContactControl.knowM
 #Contact
 GET    /contact                                 controllers.ContactControl.create
 POST   /contact/send                            controllers.ContactControl.doCreate
+GET    /contact/news/:email                     controllers.ContactControl.news(email)
 
 ######MANAGER#####
 #Home
@@ -59,6 +60,9 @@ POST   /manager/product/add                     controllers.ProductControl.addPr
 GET    /manager/product/add                     controllers.ProductControl.addProduct
 GET    /manager/product/edit/:idProd/:idCat     controllers.ProductControl.edit(idProd, idCat)
 GET    /manager/product/remove/:idCat/:idProd   controllers.ProductControl.remove(idCat, idProd)
+
+#JS
+GET    /javascriptRoutes                        controllers.ContactControl.javascriptRoutes
 
 # Map static resources from the /public folder to the /assets URL path
 GET    /assets/*file                            controllers.Assets.versioned(path="/public", file: Asset)

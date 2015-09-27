@@ -39,6 +39,12 @@ abstract class BasicCrudDAO[T](db: DB, collectionName: String) extends CrudDAO[T
     Logger.debug(s"reading documents: [collection=$collectionName, query=$id]")
     collection.find(Map("_id" -> id)).one[T]
   }
+  
+  def readsText(selector: JsObject)(implicit readsT: Reads[T]): Future[List[T]] = {
+    Logger.debug(s"reading text documents: [collection=$collectionName, query=$selector]")
+    val cursor: Cursor[T] = collection.find(selector).cursor[T]()
+    cursor.collect[List]()
+  }
 
   def update(id: String, updates: JsValue): Future[Try[Unit]] = {
     Logger.debug(s"update documents: [collection=$collectionName, query=$id][updates=$updates]")

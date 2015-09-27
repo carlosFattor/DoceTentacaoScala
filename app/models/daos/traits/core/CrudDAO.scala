@@ -15,6 +15,8 @@ trait CrudDAO[T] {
   def create(entity: T)(implicit tjs: OWrites[T]): Future[Try[String]]
 
   def read(id: String)(implicit readsT : Reads[T]): Future[Option[T]]
+  
+  def readsText(selector: JsObject)(implicit readsT: Reads[T]): Future[List[T]]
 
   def delete(id: String): Future[Try[Unit]]
 

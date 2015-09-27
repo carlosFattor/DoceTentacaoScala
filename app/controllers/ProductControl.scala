@@ -39,10 +39,19 @@ class ProductControl @Inject() (catService: CategoryService, val messagesApi: Me
 
   }
 
+  def detailProds(prodName: String) = Action.async { implicit request =>
+    val prods = catService.findListCategory().map { cats =>
+      cats.flatMap { cat =>
+        cat.products.filter { p => !p.isEmpty }.getOrElse(Nil)
+      }
+    }
+    Future.successful(Ok(""))
+  }
+  
   def detailOne(idProd: String) = Action.async { implicit request =>
     val prods = catService.findListCategory().map { cats =>
       cats.flatMap { cat =>
-        cat.products.getOrElse(null)
+        cat.products.getOrElse(Nil)
       }
     }
 
