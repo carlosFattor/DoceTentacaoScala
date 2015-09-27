@@ -1,4 +1,4 @@
-@()(implicit request: RequestHeader, messages: Messages)
+@(prods: List[models.Product])(implicit request: RequestHeader, messages: Messages)
 
 @main(messages("ndt")) {
     <meta charset="UTF-8">
@@ -6,12 +6,12 @@
     <div class="container">
         <div class="row ">
         <div id="fail"class="alert alert-error col-6 hidden">
-            <p>Erro ao tentar enviar e-mail!</p>
+            <p>@messages("email.send.fail")</p>
         </div>
 
 
         <div id="success" class="alert alert-success col-6 hidden">
-            <p>E-mail enviado com sucesso!</p>
+            <p>@messages("email.send")</p>
         </div>
 
         </div>
@@ -40,36 +40,48 @@
             </div>
         </div>
     <div class="col-md-10">
-        <h1>Seja bem vindo!</h1>
-        <p>A nossa missão está em oferecer um produto com alta qualidade, baseado na criatividade dos nossos familiares.
-        Nosso material é de otima qualidade e todos os doces feitos artesanalmente. Por sermos fabricantes, entendemos que
-        o nosso sucesso está alicerçado na satisfação dos nossos clientes, e assim podemos elaborar e personalizar o seu produto.</p>
+        <h1>@messages("welcome")!</h1>
+        <p>@messages("info.mission")</p>
     </div>
 
     <div class="row">
         <div class="col-xs-9 col-sm-4 col-md-4">
-
+                <section class="slider">
+                <h2>Destaques.</h2>
+                        <nav class="slide-nav">
+                            <ul>
+                                    @for(prod <- prods){
+                                        <li><a href="#">.</a></li>
+                                    }
+                            </ul>
+                        </nav>
+                        <ul class="slides">
+                          @for(prod <- prods){
+                            <li><a href="@controllers.routes.ProductControl.detailOne(prod._id.get)"><img src="@prod.prodImgSmallURL" alt="@prod.prodName" class="img-rounded"></a></li>
+                          }
+                          </ul>
+                </section>
         </div>
         <div class="col-md-4">
-            <h2>Produtos</h2>
+            <h2>@messages("products")</h2>
             <p><img src="@routes.Assets.versioned("img/icons/cake_1.png")" style="float: left;" class="img-rounded"/>
-            Os ingredientes utilizados na fabricação de nossos produtos são escolhidos a dedo para proporcionar a melhor
-            qualidade possivel a nossos clientes. Nossos carros chefes são Bolos, Tortas e Cupcakes, experimente e tente resistir!</p>
+            @messages("info.ingredient")
+            </p>
 
         </div>
         <div class="col-md-4">
-            <h2>Clientes</h2>
+            <h2>@messages("clients")</h2>
             <p><img src="@routes.Assets.versioned("img/icons/customer.png")" style="float: left;" class="img-rounded"/>
-            Nossos clientes e Amigos são nossa inspiração, essa é a fórmula de sucesso e qualidade de nossos produtos.
-            Com a sua imaginação e nossa criatividade, juntos, podemos realizar e criar coisas incriveis!</p>
+            @messages("info.clients")
+            </p>
 
         </div>
     </div>
     <hr>
         <div class="row" style="margin-bottom: 100px;">
             <div class="col-md-12">
-                <h2>Dicas</h2>
-                <p>Veja nossas dicas de culinária.</p>
+                <h2>@messages("tips")</h2>
+                <p>@messages("info.tips")</p>
                 <p>
                     <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
                       Dicas de Culinária
@@ -81,7 +93,7 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="myModal"  role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -89,8 +101,7 @@
             <h3 class="modal-title" id="myModalLabel">Ainda não</h3>
           </div>
           <div class="modal-body">
-                <p>Nossa seção de dicas de culinária está sendo desenvolvida, em breve você terá em mãos diversas informações que lhe ajudaram em sua cozinha.
-                Fique atento, em alguns dias estaremos estaremos entrando em contato com os inscritos de nossa News Letter. <b>News Letter<b>.</p>
+                <p>@messages("info.modal")<b>News Letter<b>.</p>
                 <cite>Nilda - Doce & Tentação</cite>
           </div>
           <div class="modal-footer">

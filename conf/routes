@@ -12,6 +12,7 @@ GET    /gallery                                 controllers.GalleryControl.galle
 GET    /category                                controllers.CategoryControl.category()
 GET    /category/:idCat                         controllers.ProductControl.list(idCat)
 GET    /category/product/:idCat/:idProd         controllers.ProductControl.detail(idCat, idProd)
+GET    /category/product/:idProd                controllers.ProductControl.detailOne(idProd)
 
 #KnowMore
 GET    /learn                                   controllers.ContactControl.knowMore

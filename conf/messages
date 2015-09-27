@@ -2,6 +2,7 @@ ndt=Nilda Doce Tentação
 
 error.required=*
 
+welcome=Seja bem vindo
 email=Email
 password=Password
 cite=Nilda - Doce&Tentação
@@ -22,10 +23,15 @@ avatar.url=URL do Avatar
 web=Web-Site
 send=Enviar
 featured=Destaque
+clients=Clientes
+tips=Dicas
+
 
 #Category | Product
 category=Categoria
+categories=Categorias
 product=Produto
+products=Produtos
 fail.remove.category=Não foi possivel excluir a categoria
 fail.remove.product=Não foi possivel excluir o Produto
 fail.add=Erro ao cadastrar
@@ -45,8 +51,13 @@ our.products.detail=Confira todos os nossos produtos e delicie-se!
 gallery=Galeria
 add.iten=Adicionar item a galeria
 
+#Infos
 info.about=Somos um grupo familiar, que trabalha para atender a necessidades de nossos amigos. Estamos sempre tentando criar mais e melhor, se você tiver a necessidade de algo de nossos produtos diferenciado, por-favor, entre em contato, estaremos sempre dispostos a ajuda-lo a ter o que você imagina poder ter!
-
+info.mission=A nossa missão está em oferecer um produto com alta qualidade, baseado na criatividade dos nossos familiares. Nosso material é de otima qualidade e todos os doces feitos artesanalmente. Por sermos fabricantes, entendemos que o nosso sucesso está alicerçado na satisfação dos nossos clientes, e assim podemos elaborar e personalizar o seu produto.
+info.ingredient=Os ingredientes utilizados na fabricação de nossos produtos são escolhidos a dedo para proporcionar a melhor qualidade possivel a nossos clientes. Nossos carros chefes são Bolos, Tortas e Cupcakes, experimente e tente resistir!
+info.clients=Nossos clientes e Amigos são nossa inspiração, essa é a fórmula de sucesso e qualidade de nossos produtos. Com a sua imaginação e nossa criatividade, juntos, podemos realizar e criar coisas incriveis!
+info.tips=Veja nossas dicas de culinária.
+info.modal=Nossa seção de dicas de culinária está sendo desenvolvida, em breve você terá em mãos diversas informações que lhe ajudaram em sua cozinha. Fique atento, em alguns dias estaremos estaremos entrando em contato com os inscritos de nossa 
 
 #Contact
 contact=Contato

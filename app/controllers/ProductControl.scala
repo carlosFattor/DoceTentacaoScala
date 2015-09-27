@@ -39,6 +39,20 @@ class ProductControl @Inject() (catService: CategoryService, val messagesApi: Me
 
   }
 
+  def detailOne(idProd: String) = Action.async { implicit request =>
+    val prods = catService.findListCategory().map { cats =>
+      cats.flatMap { cat =>
+        cat.products.getOrElse(null)
+      }
+    }
+
+    prods.map { prod =>
+      val p = prod.find { p => p._id.get.equalsIgnoreCase(idProd) }
+      println(p)
+      Ok(views.html.category.product(p.get))
+    }
+  }
+
   def prodAndCat = Authenticated.async { implicit request =>
     catService.findProduts.flatMap { cats =>
       Future.successful(Ok(views.html.manager.product.list_product(cats)))
@@ -86,7 +100,6 @@ class ProductControl @Inject() (catService: CategoryService, val messagesApi: Me
 
   def edit(idProd: String, idCat: String) = Authenticated.async { implicit request =>
     catService.findListCategory().map { cats =>
-      //val map = cats.map { t => (t._id.get, t.catName) }
       val prod = cats.flatMap { cat =>
         cat.products.get.find { p => p._id.get == idProd }
       }.head
