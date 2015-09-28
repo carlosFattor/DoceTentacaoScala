@@ -38,7 +38,7 @@ case class DIModule(environment: Environment, configuration: Configuration) exte
   }
   
   private def bindMongo(): Unit = {
-    val hosts = configuration.getString("mongodb.uri").get.asInstanceOf[List[String]]
+    val hosts = configuration.getStringSeq("mongodb.server").get.asInstanceOf[List[String]]
     val port = configuration.getInt("mongodb.port").get
     val dbName = configuration.getString("mongodb.db").get
 
