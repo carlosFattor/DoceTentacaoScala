@@ -15,6 +15,10 @@ pipelineStages := Seq(uglify, digest, gzip)
 
 DigestKeys.algorithms += "sha1"
 
+UglifyKeys.uglifyOps := { js =>
+  Seq((js.sortBy(_._2), "concat.min.js"))
+}
+
 libraryDependencies ++= Seq(
   jdbc,
   cache,
